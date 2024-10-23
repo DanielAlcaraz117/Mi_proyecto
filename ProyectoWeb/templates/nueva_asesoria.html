@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center">Nueva Asesoría</h2>
+<form method="POST" action="{{ url_for('nueva_asesoria') }}">
+    <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+    </div>
+    <div class="form-group">
+        <label for="costo">Costo</label>
+        <input type="number" class="form-control" id="costo" name="costo" required>
+    </div>
+    <div class="form-group">
+        <label for="max_alumnos">Máximo de Alumnos</label>
+        <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" required>
+    </div>
+    <div class="form-group">
+        <label for="temas">Temas</label>
+        <input type="text" class="form-control" id="temas" name="temas" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Agregar Asesoría</button>
+</form>
+{% endblock %}

@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    /* Fondo predeterminado */
+    background-color: #f2f2f2;
+}
+
+.container {
+    /* Alineación del contenedor principal */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Imagen de fondo */
+    background-image: url('/static/FondoLogin1.jpg'); /* Ruta de la imagen de fondo */
+    background-size: cover; /* Tamaño de la imagen */
+    background-position: center; /* Posición de la imagen */
+}
+
+.border {
+    /* Estilo del contenedor del formulario */
+    background-color: #007BFF; /* Azul de fondo */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    backdrop-filter: blur(10px); /* Efecto de desenfoque de fondo */
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: white; /* Botones blancos */
+    color: #007BFF; /* Texto azul */
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: lightgray; /* Fondo gris claro al pasar el ratón */
+}
+
+.text-center {
+    text-align: center;
+    font-weight: bold;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-2 {
+    margin-top: 10px;
+}
+
+.btn-outline-dark {
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+}
+
+.btn-outline-dark:hover {
+    background-color: black;
+    color: white;
+}
+
+.btn-outline-primary {
+    background-color: #3b5998; /* Azul de Facebook */
+    color: white;
+    border: 1px solid #3b5998;
+}
+
+.btn-outline-primary:hover {
+    background-color: white;
+    color: #3b5998;
+}
+
+.btn-outline-danger {
+    background-color: #DB4437; /* Rojo de Google */
+    color: white;
+    border: 1px solid #DB4437;
+}
+
+.btn-outline-danger:hover {
+    background-color: white;
+    color: #DB4437;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-around {
+    justify-content: space-around;
+}
+
+.p-2 {
+    padding: 10px;
+}
+
+.bg-white {
+    background-color: white;
+    border-radius: 10px;
+}
+
+hr.bg-light {
+    background-color: white;
+    border: none;
+    height: 1px;
+}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Asesorías</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('ver_asesorias_totales') }}">Ver Asesorías Totales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="row justify-content-center mt-4">
+    <div class="col-md-12">
+        <h2 class="text-center">Tus Asesorías</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Costo</th>
+                    <th>Máximo de Alumnos</th>
+                    <th>Temas</th>
+                    <th>Registrados</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asesoria in asesorias %}
+                    <tr>
+                        <td>{{ asesoria.descripcion }}</td>
+                        <td>{{ asesoria.costo }}</td>
+                        <td>{{ asesoria.max_alumnos }}</td>
+                        <td>{{ asesoria.temas }}</td>
+                        <td>{{ asesoria.alumnos|length }}</td>
+                        <td>
+                            <a href="{{ url_for('ver_asesoria', id=asesoria.id) }}" class="btn btn-info">Ver Detalles</a>
+                            <form action="{{ url_for('borrar_asesoria', id=asesoria.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta asesoría?');">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('nueva_asesoria') }}" class="btn btn-success">Agregar Nueva Asesoría</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center">{{ asesoria.descripcion }}</h2>
+<ul class="list-group">
+    <li class="list-group-item">Costo: {{ asesoria.costo }}</li>
+    <li class="list-group-item">Máximo de Alumnos: {{ asesoria.max_alumnos }}</li>
+    <li class="list-group-item">Temas: {{ asesoria.temas }}</li>
+    <li class="list-group-item">Registrados: {{ asesoria.alumnos|length }}</li>
+</ul>
+<h3 class="mt-3">Maestro:</h3>
+<ul class="list-group">
+    <li class="list-group-item">{{ maestro.nombre }}</li>
+</ul>
+<h3 class="mt-3">Alumnos Inscritos:</h3>
+<ul class="list-group">
+    {% for alumno in alumnos %}
+        <li class="list-group-item">{{ alumno.nombre }}</li>
+    {% endfor %}
+</ul>
+<a href="{% if current_user.rol == 'alumno' %}{{ url_for('dashboard_alumno') }}{% else %}{{ url_for('dashboard_maestro') }}{% endif %}" class="btn btn-secondary mt-3">Regresar</a>
+{% endblock %}

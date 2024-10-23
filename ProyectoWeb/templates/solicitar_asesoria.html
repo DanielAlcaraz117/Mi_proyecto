@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Solicitar Asesoría{% endblock %}
+
+{% block content %}
+<h2>Solicitar Asesoría</h2>
+
+<p><strong>Descripción:</strong> {{ asesoria.descripcion }}</p>
+<p><strong>Costo:</strong> {{ asesoria.costo }}</p>
+<p><strong>Máx. Alumnos:</strong> {{ asesoria.max_alumnos }}</p>
+
+<form method="POST">
+    <button type="submit">Inscribirse en la Asesoría</button>
+</form>
+{% endblock %}

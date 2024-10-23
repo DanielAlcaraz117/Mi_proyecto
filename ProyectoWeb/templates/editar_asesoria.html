@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center">Editar Asesoría</h2>
+<form method="POST" action="{{ url_for('editar_asesoria', id=asesoria.id) }}">
+    <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ asesoria.descripcion }}" required>
+    </div>
+    <div class="form-group">
+        <label for="costo">Costo</label>
+        <input type="number" class="form-control" id="costo" name="costo" value="{{ asesoria.costo }}" required>
+    </div>
+    <div class="form-group">
+        <label for="max_alumnos">Máximo de Alumnos</label>
+        <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" value="{{ asesoria.max_alumnos }}" required>
+    </div>
+    <div class="form-group">
+        <label for="temas">Temas</label>
+        <input type="text" class="form-control" id="temas" name="temas" value="{{ asesoria.temas }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar Asesoría</button>
+</form>
+{% endblock %}

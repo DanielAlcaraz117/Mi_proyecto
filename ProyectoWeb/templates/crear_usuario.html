@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="text-center">
+        <h2>Registrarse como</h2>
+        <div class="mt-4">
+            <a href="{{ url_for('registro_maestro') }}" class="btn btn-primary btn-lg">Maestro</a>
+            <a href="{{ url_for('registro_alumno') }}" class="btn btn-secondary btn-lg ml-3">Alumno</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

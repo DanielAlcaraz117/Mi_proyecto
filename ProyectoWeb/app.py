@@ -190,7 +190,7 @@ def ver_asesoria(id):
     alumnos = asesoria.alumnos
     return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
 
-# Ruta para borrar una asesoría
+# Ruta para borrar una asesoría - Pacheco
 @app.route('/borrar_asesoria/<int:id>', methods=['POST'])
 @login_required
 def borrar_asesoria(id):

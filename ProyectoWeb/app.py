@@ -181,7 +181,7 @@ def registrar_asesoria(id):
     return redirect(url_for('dashboard_alumno'))
 
 
-# Ruta para ver los detalles de una asesoría
+# Ruta para ver los detalles de una asesoría - Pacheco
 @app.route('/ver_asesoria/<int:id>')
 @login_required
 def ver_asesoria(id):

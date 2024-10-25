@@ -1,9 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-image: url('/static/FondoLogin1.jpg'); background-size: cover; background-position: center;">
-    <!-- Contenedor principal con la imagen de fondo -->
+<!-- Cambios Gabriel: 
+     - Se eliminó la clase container
+     - Se agregaron los estilos directamente en el div principal
+     - Se forzó el tamaño completo con !important para sobreescribir otros estilos -->
+<div style="
+    min-height: 100vh !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-image: url('/static/FondoLogin1.jpg');
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;">
+    
     <div class="border border-dark p-4 bg-primary text-white rounded shadow-lg" style="width: 400px; backdrop-filter: blur(10px);">
-        <!-- Contenedor del formulario con efecto de desenfoque de fondo -->
         <h2 class="text-center mb-4">Inicio de sesión</h2>
         <form method="POST">
             <div class="form-group">

@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
+<!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
 
 {% block title %}Solicitar Asesoría{% endblock %}
+<!-- Define el título de la página como "Solicitar Asesoría" -->
 
 {% block content %}
+<!-- Inicia el bloque de contenido personalizado -->
+
 <h2>Solicitar Asesoría</h2>
+<!-- Título principal de la sección -->
 
 <p><strong>Descripción:</strong> {{ asesoria.descripcion }}</p>
+<!-- Muestra la descripción de la asesoría, obtenida de la variable 'asesoria' -->
+
 <p><strong>Costo:</strong> {{ asesoria.costo }}</p>
+<!-- Muestra el costo de la asesoría -->
+
 <p><strong>Máx. Alumnos:</strong> {{ asesoria.max_alumnos }}</p>
+<!-- Muestra el número máximo de alumnos permitido para la asesoría -->
 
 <form method="POST">
+    <!-- Formulario para solicitar inscripción en la asesoría, enviando los datos mediante el método POST -->
+
     <button type="submit">Inscribirse en la Asesoría</button>
+    <!-- Botón para enviar el formulario de inscripción -->
 </form>
+
 {% endblock %}
+<!-- Fin del bloque de contenido personalizado -->

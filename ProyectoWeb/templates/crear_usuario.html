@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
+<!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
+
 {% block content %}
+<!-- Inicia el bloque 'content' donde se añadirá el contenido específico de esta página -->
+
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <!-- Contenedor principal con clases de Bootstrap para centrar vertical y horizontalmente el contenido -->
+    <!-- 'min-height: 100vh;' asegura que el contenedor ocupe toda la altura de la ventana -->
+
     <div class="text-center">
+        <!-- Contenedor interno centrado para el contenido -->
+
         <h2>Registrarse como</h2>
+        <!-- Título de la sección -->
+
         <div class="mt-4">
+            <!-- Espacio superior (margin-top) de 4 unidades para separar el título de los botones -->
+
             <a href="{{ url_for('registro_maestro') }}" class="btn btn-primary btn-lg">Maestro</a>
+            <!-- Botón para el registro como 'Maestro'; el enlace se genera dinámicamente con la función 'url_for' -->
+            <!-- 'btn-primary' define el estilo de color azul, y 'btn-lg' ajusta el tamaño del botón a grande -->
+
             <a href="{{ url_for('registro_alumno') }}" class="btn btn-secondary btn-lg ml-3">Alumno</a>
+            <!-- Botón para el registro como 'Alumno'; similar al anterior, con 'btn-secondary' para un color gris -->
+            <!-- 'ml-3' añade un margen izquierdo de 3 unidades para separar el botón del anterior -->
         </div>
+
     </div>
 </div>
+
 {% endblock %}
+<!-- Fin del bloque 'content', que permite insertar este contenido específico en la plantilla base -->

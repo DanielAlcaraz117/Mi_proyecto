@@ -1,18 +1,29 @@
 {% extends 'base.html' %}
+<!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
+
 {% block content %}
+<!-- Inicia el bloque de contenido personalizado -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Barra de navegación de color primario -->
     <a class="navbar-brand" href="#">Asesorías</a>
+    <!-- Marca de la barra de navegación -->
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                <!-- Enlace para cerrar sesión -->
             </li>
         </ul>
     </div>
 </nav>
+
 <div class="container mt-4">
+    <!-- Contenedor principal para el contenido -->
     <h2 class="text-center">Ver Asesorías Totales</h2>
+    <!-- Título centrado para la sección de asesorías -->
     <table class="table table-bordered mt-3">
+        <!-- Tabla que muestra las asesorías -->
         <thead>
             <tr>
                 <th>Descripción</th>
@@ -25,16 +36,25 @@
         </thead>
         <tbody>
             {% for asesoria, maestro in asesorias %}
+            <!-- Bucle que itera sobre la lista de asesorías y sus respectivos maestros -->
                 <tr>
                     <td>{{ asesoria.descripcion }}</td>
+                    <!-- Muestra la descripción de la asesoría -->
                     <td>{{ asesoria.costo }}</td>
+                    <!-- Muestra el costo de la asesoría -->
                     <td>{{ asesoria.max_alumnos }}</td>
+                    <!-- Muestra el máximo de alumnos permitidos en la asesoría -->
                     <td>{{ asesoria.temas }}</td>
+                    <!-- Muestra los temas que se tratarán en la asesoría -->
                     <td>{{ maestro.nombre }}</td>
+                    <!-- Muestra el nombre del maestro a cargo de la asesoría -->
                     <td>
                         <a href="{{ url_for('ver_asesoria', id=asesoria.id) }}" class="btn btn-info">Ver Detalles</a>
+                        <!-- Botón para ver detalles de la asesoría -->
                         {% if current_user.id == maestro.id %}
+                        <!-- Condición que verifica si el usuario actual es el maestro de la asesoría -->
                             <a href="{{ url_for('editar_asesoria', id=asesoria.id) }}" class="btn btn-warning">Editar</a>
+                            <!-- Botón para editar la asesoría, visible solo para el maestro -->
                         {% endif %}
                     </td>
                 </tr>
@@ -42,4 +62,6 @@
         </tbody>
     </table>
 </div>
+
 {% endblock %}
+<!-- Fin del bloque de contenido personalizado -->

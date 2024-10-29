@@ -1,21 +1,45 @@
 {% extends 'base.html' %}
+<!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
+
 {% block content %}
+<!-- Inicia el bloque de contenido personalizado -->
+
 <h2 class="text-center">{{ asesoria.descripcion }}</h2>
+<!-- Título centrado que muestra la descripción de la asesoría -->
+
 <ul class="list-group">
+    <!-- Lista que muestra información relevante sobre la asesoría -->
     <li class="list-group-item">Costo: {{ asesoria.costo }}</li>
+    <!-- Elemento de lista que muestra el costo de la asesoría -->
+    
     <li class="list-group-item">Máximo de Alumnos: {{ asesoria.max_alumnos }}</li>
+    <!-- Elemento de lista que muestra el número máximo de alumnos para la asesoría -->
+    
     <li class="list-group-item">Temas: {{ asesoria.temas }}</li>
+    <!-- Elemento de lista que muestra los temas que se tratarán en la asesoría -->
+    
     <li class="list-group-item">Registrados: {{ asesoria.alumnos|length }}</li>
+    <!-- Elemento de lista que muestra la cantidad de alumnos registrados para la asesoría -->
 </ul>
+
 <h3 class="mt-3">Maestro:</h3>
+<!-- Título que indica la sección del maestro de la asesoría -->
 <ul class="list-group">
     <li class="list-group-item">{{ maestro.nombre }}</li>
+    <!-- Elemento de lista que muestra el nombre del maestro encargado de la asesoría -->
 </ul>
+
 <h3 class="mt-3">Alumnos Inscritos:</h3>
+<!-- Título que indica la sección de alumnos inscritos -->
 <ul class="list-group">
     {% for alumno in alumnos %}
         <li class="list-group-item">{{ alumno.nombre }}</li>
+        <!-- Bucle que itera sobre la lista de alumnos inscritos y muestra sus nombres -->
     {% endfor %}
 </ul>
+
 <a href="{% if current_user.rol == 'alumno' %}{{ url_for('dashboard_alumno') }}{% else %}{{ url_for('dashboard_maestro') }}{% endif %}" class="btn btn-secondary mt-3">Regresar</a>
+<!-- Enlace para regresar a la página del dashboard correspondiente (alumno o maestro) según el rol del usuario actual -->
+
 {% endblock %}
+<!-- Fin del bloque de contenido personalizado -->

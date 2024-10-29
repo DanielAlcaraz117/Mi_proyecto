@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_migrate import Migrate
 import os
-
+#Para crear el archivo donde se esta guardando toda la informacion en general
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///asesorias.db'
 app.config['SECRET_KEY'] = 'tu_clave_secreta'

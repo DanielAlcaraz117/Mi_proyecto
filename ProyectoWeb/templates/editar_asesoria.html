@@ -1,23 +1,58 @@
 {% extends 'base.html' %}
+<!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
+
 {% block content %}
+<!-- Inicia el bloque de contenido personalizado -->
+
 <h2 class="text-center">Editar Asesoría</h2>
+<!-- Título centrado que indica que el usuario está editando una asesoría -->
+
 <form method="POST" action="{{ url_for('editar_asesoria', id=asesoria.id) }}">
+    <!-- Formulario para editar la asesoría, enviando los datos mediante el método POST al enlace generado dinámicamente con el ID de la asesoría -->
+
     <div class="form-group">
+        <!-- Grupo de formulario para el campo de descripción de la asesoría -->
+        
         <label for="descripcion">Descripción</label>
+        <!-- Etiqueta para el campo de descripción -->
+        
         <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ asesoria.descripcion }}" required>
+        <!-- Campo de entrada de texto para la descripción de la asesoría; muestra el valor actual de 'asesoria.descripcion' y es obligatorio -->
     </div>
+
     <div class="form-group">
+        <!-- Grupo de formulario para el campo de costo de la asesoría -->
+        
         <label for="costo">Costo</label>
+        <!-- Etiqueta para el campo de costo -->
+        
         <input type="number" class="form-control" id="costo" name="costo" value="{{ asesoria.costo }}" required>
+        <!-- Campo de entrada numérica para el costo de la asesoría; muestra el valor actual de 'asesoria.costo' y es obligatorio -->
     </div>
+
     <div class="form-group">
+        <!-- Grupo de formulario para el campo de máximo de alumnos de la asesoría -->
+        
         <label for="max_alumnos">Máximo de Alumnos</label>
+        <!-- Etiqueta para el campo de máximo de alumnos -->
+        
         <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" value="{{ asesoria.max_alumnos }}" required>
+        <!-- Campo de entrada numérica para el máximo de alumnos; muestra el valor actual de 'asesoria.max_alumnos' y es obligatorio -->
     </div>
+
     <div class="form-group">
+        <!-- Grupo de formulario para el campo de temas de la asesoría -->
+        
         <label for="temas">Temas</label>
+        <!-- Etiqueta para el campo de temas -->
+        
         <input type="text" class="form-control" id="temas" name="temas" value="{{ asesoria.temas }}" required>
+        <!-- Campo de entrada de texto para los temas de la asesoría; muestra el valor actual de 'asesoria.temas' y es obligatorio -->
     </div>
+
     <button type="submit" class="btn btn-primary">Actualizar Asesoría</button>
+    <!-- Botón para enviar el formulario y actualizar los datos de la asesoría -->
 </form>
+
 {% endblock %}
+<!-- Fin del bloque de contenido personalizado -->

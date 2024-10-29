@@ -1,27 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Declaración del tipo de documento como HTML5 -->
     <meta charset="UTF-8">
+    <!-- Configura el idioma del contenido de la página como español -->
+    
+    <!-- Configuración del conjunto de caracteres en UTF-8 para soportar caracteres especiales -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Establece el viewport para que la página sea responsive en dispositivos móviles -->
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Importa la hoja de estilos de Bootstrap para usar su sistema de diseño y componentes predefinidos -->
+    
     <title>{% block title %}Tu Título{% endblock %}</title>
+    <!-- Define el título de la página; usa bloques de plantillas para permitir que otras páginas establezcan su propio título -->
 </head>
+
 <body>
+    <!-- Inicio del cuerpo de la página -->
     <div class="container">
+        <!-- Contenedor central con la clase 'container' de Bootstrap para centrar y ajustar el contenido -->
+
         {% with messages = get_flashed_messages() %}
+        <!-- Bloque para manejar mensajes flash que se mostrarán temporalmente -->
+        
             {% if messages %}
+            <!-- Verifica si existen mensajes flash -->
+            
                 <div class="alert alert-info" role="alert">
+                    <!-- Crea una alerta de tipo informativo usando Bootstrap si hay mensajes -->
+                    
                     {% for message in messages %}
+                    <!-- Itera sobre cada mensaje en la lista de mensajes flash -->
+                    
                         {{ message }}
+                        <!-- Muestra el contenido del mensaje flash -->
+                        
                     {% endfor %}
                 </div>
+                <!-- Fin de la alerta que muestra los mensajes flash -->
+                
             {% endif %}
         {% endwith %}
+        
         {% block content %}{% endblock %}
-       <!-- Pacheco -->
+        <!-- Bloque de contenido principal; se utilizará para insertar el contenido específico de cada página -->
+        
     </div>
+    <!-- Fin del contenedor principal -->
+
+    <!-- Scripts de JavaScript para el funcionamiento de Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Incluye la librería jQuery para manipulación DOM y soporte a Bootstrap -->
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <!-- Incluye Popper.js, necesario para las funciones de posicionamiento de Bootstrap (por ejemplo, tooltips) -->
+    
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Incluye el script de Bootstrap para los componentes interactivos (como modales, menús, etc.) -->
 </body>
 </html>

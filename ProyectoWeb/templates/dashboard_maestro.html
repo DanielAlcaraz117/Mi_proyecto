@@ -1,51 +1,119 @@
 {% extends 'base.html' %}
+<!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
+
 {% block content %}
+<!-- Inicia el bloque de contenido personalizado -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Barra de navegación usando Bootstrap con fondo oscuro (bg-primary) para estilo visual uniforme -->
+
     <a class="navbar-brand" href="#">Asesorías</a>
+    <!-- Título o logo de la plataforma en la barra de navegación -->
+
     <div class="collapse navbar-collapse">
+        <!-- Contenedor de los elementos de navegación que se colapsan en pantallas pequeñas -->
+
         <ul class="navbar-nav ml-auto">
+            <!-- Lista de elementos de navegación alineados a la derecha (ml-auto) -->
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('ver_asesorias_totales') }}">Ver Asesorías Totales</a>
+                <!-- Enlace a la vista para ver todas las asesorías en el sistema -->
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                <!-- Enlace para cerrar sesión del usuario -->
             </li>
+
         </ul>
     </div>
 </nav>
+
 <div class="row justify-content-center mt-4">
+    <!-- Fila que centra el contenido horizontalmente, con margen superior (mt-4) -->
+
     <div class="col-md-12">
+        <!-- Columna que ocupa todo el ancho en pantallas medianas y superiores -->
+
         <h2 class="text-center">Tus Asesorías</h2>
+        <!-- Título centrado para indicar que se muestran las asesorías del usuario -->
+
         <table class="table table-bordered">
+            <!-- Tabla con bordes para listar las asesorías de manera estructurada -->
+
             <thead>
+                <!-- Encabezado de la tabla con los títulos de cada columna -->
                 <tr>
                     <th>Descripción</th>
+                    <!-- Columna para la descripción de la asesoría -->
+
                     <th>Costo</th>
+                    <!-- Columna para mostrar el costo de la asesoría -->
+
                     <th>Máximo de Alumnos</th>
+                    <!-- Columna que indica el número máximo de alumnos permitidos en la asesoría -->
+
                     <th>Temas</th>
+                    <!-- Columna que muestra los temas a tratar en la asesoría -->
+
                     <th>Registrados</th>
+                    <!-- Columna que indica el número actual de alumnos registrados -->
+
                     <th>Acciones</th>
+                    <!-- Columna para los botones de acción (ver detalles y eliminar) -->
                 </tr>
             </thead>
+
             <tbody>
+                <!-- Cuerpo de la tabla donde se listan las asesorías del usuario -->
+
                 {% for asesoria in asesorias %}
+                <!-- Bucle que recorre cada asesoría en la lista 'asesorias' -->
+
                     <tr>
+                        <!-- Fila de la tabla para cada asesoría -->
+
                         <td>{{ asesoria.descripcion }}</td>
+                        <!-- Muestra la descripción de la asesoría -->
+
                         <td>{{ asesoria.costo }}</td>
+                        <!-- Muestra el costo de la asesoría -->
+
                         <td>{{ asesoria.max_alumnos }}</td>
+                        <!-- Muestra el número máximo de alumnos permitidos en la asesoría -->
+
                         <td>{{ asesoria.temas }}</td>
+                        <!-- Muestra los temas a tratar en la asesoría -->
+
                         <td>{{ asesoria.alumnos|length }}</td>
+                        <!-- Muestra el número de alumnos registrados, usando el filtro 'length' para contar los elementos en la lista 'alumnos' -->
+
                         <td>
+                            <!-- Columna de acciones -->
+
                             <a href="{{ url_for('ver_asesoria', id=asesoria.id) }}" class="btn btn-info">Ver Detalles</a>
+                            <!-- Botón para ver los detalles de la asesoría, con enlace generado dinámicamente -->
+
                             <form action="{{ url_for('borrar_asesoria', id=asesoria.id) }}" method="POST" style="display:inline;">
+                                <!-- Formulario para eliminar la asesoría, con estilo inline para alinearse con el botón anterior -->
+
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta asesoría?');">Eliminar</button>
+                                <!-- Botón para enviar el formulario y eliminar la asesoría; el mensaje de confirmación se muestra antes de proceder -->
                             </form>
+
                         </td>
                     </tr>
+
                 {% endfor %}
+                <!-- Fin del bucle for que recorre cada asesoría -->
             </tbody>
         </table>
+
         <a href="{{ url_for('nueva_asesoria') }}" class="btn btn-success">Agregar Nueva Asesoría</a>
+        <!-- Botón para agregar una nueva asesoría, enlazado dinámicamente a la vista de creación de asesoría -->
     </div>
 </div>
+
 {% endblock %}
+<!-- Fin del bloque de contenido personalizado -->

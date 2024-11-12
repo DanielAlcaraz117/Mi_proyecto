@@ -7,11 +7,12 @@
 <div class="container mt-5">
     <!-- Contenedor principal con margen superior -->
 
-    <h2 class="text-center">Registro de Alumno</h2>
-    <!-- Título centrado para la sección de registro de alumno -->
+    <h2 class="text-center">Registro de Maestro</h2>
+    <!-- Título centrado para la sección de registro de maestro -->
 
-    <form method="POST" action="{{ url_for('registro_alumno') }}">
-        <!-- Formulario para el registro de alumno, enviando los datos mediante el método POST a la ruta 'registro_alumno' -->
+    <form method="POST" action="{{ url_for('registro_maestro') }}" enctype="multipart/form-data">
+        <!-- Formulario para el registro de maestro, enviando los datos mediante POST a la ruta 'registro_maestro' 
+             con 'enctype' para admitir archivos de carga -->
 
         <div class="form-group">
             <!-- Grupo de formulario para el campo de nombre -->
@@ -53,10 +54,73 @@
             <!-- Campo de entrada para confirmar la contraseña, obligatorio y con estilo de formulario -->
         </div>
 
+        <div class="form-group">
+            <!-- Grupo de formulario para el campo de especialización -->
+
+            <label for="especializacion">Áreas de Especialización</label>
+            <!-- Etiqueta para el campo de especialización -->
+
+            <input type="text" class="form-control" id="especializacion" name="especializacion" required>
+            <!-- Campo de entrada para las áreas de especialización del maestro, obligatorio y con estilo de formulario -->
+        </div>
+
+        <div class="form-group">
+            <!-- Grupo de formulario para el campo de fotografía -->
+
+            <label for="foto">Fotografía</label>
+            <!-- Etiqueta para el campo de fotografía -->
+
+            <input type="file" class="form-control-file" id="foto" name="foto">
+            <!-- Campo de entrada para la carga de fotografía, permite seleccionar un archivo -->
+        </div>
+
+        <div class="form-group">
+            <!-- Grupo de formulario para el campo de edad -->
+
+            <label for="edad">Edad</label>
+            <!-- Etiqueta para el campo de edad -->
+
+            <input type="number" class="form-control" id="edad" name="edad" required>
+            <!-- Campo de entrada para la edad, obligatorio y con estilo de formulario -->
+        </div>
+
+        <div class="form-group">
+            <!-- Grupo de formulario para el campo de nivel de estudios -->
+
+            <label for="nivel">Nivel de Estudios</label>
+            <!-- Etiqueta para el campo de nivel de estudios -->
+
+            <select class="form-control" id="nivel" name="nivel">
+                <!-- Menú desplegable para seleccionar el nivel de estudios -->
+
+                <option value="maestria">Maestría</option>
+                <!-- Opción de nivel de estudios: Maestría -->
+
+                <option value="doctorado">Doctorado</option>
+                <!-- Opción de nivel de estudios: Doctorado -->
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
-        <!-- Botón para enviar el formulario de registro, con estilo primario y ocupando todo el ancho del contenedor -->
+        <!-- Botón para enviar el formulario de registro, con estilo primario y bloque completo -->
     </form>
 </div>
 
 {% endblock %}
-<!-- Fin del bloque de contenido personalizado -->
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+
+    form.addEventListener('submit', function(event) {
+        if (password.value !== confirmPassword.value) {
+            event.preventDefault();
+            alert('Las contraseñas no coinciden.');
+        }
+    });
+});
+</script>
+{% endblock %}

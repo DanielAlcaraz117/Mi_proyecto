@@ -1,0 +1,29 @@
+/* custom.css */
+
+/* Variables de Colores */
+:root {
+    --primary-color: #3498db; /* Azul Primario */
+    --secondary-color: #2ecc71; /* Verde Secundario */
+    --font-family: 'Roboto', sans-serif; /* Fuente principal */
+}
+
+/* Fuente del cuerpo */
+body {
+    font-family: var(--font-family);
+}
+
+/* Estilo de la barra de navegación */
+.navbar {
+    background-color: var(--primary-color);
+}
+
+/* Estilo de los botones */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}

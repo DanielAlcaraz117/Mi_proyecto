@@ -3,6 +3,11 @@
 
 {% block content %}
 <!-- Inicia el bloque de contenido personalizado -->
+<h2 class="text-center">Nueva Asesoría</h2>
+<form method="POST" action="{{ url_for('nueva_asesoria') }}">
+    <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-image: url('/static/FondoLogin1.jpg'); background-size: cover; background-position: center;">
     <!-- Contenedor principal con alineación centrada, imagen de fondo y altura mínima de toda la ventana (100vh) -->
@@ -61,7 +66,20 @@
 
         <hr class="bg-light">
         <!-- Otra línea divisoria clara para separar las opciones de inicio de sesión alternativo del enlace de registro -->
-
+        <div class="form-group">
+            <label for="costo">Costo</label>
+            <input type="number" class="form-control" id="costo" name="costo" required>
+        </div>
+        <div class="form-group">
+            <label for="max_alumnos">Máximo de Alumnos</label>
+            <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" required>
+        </div>
+        <div class="form-group">
+            <label for="temas">Temas</label>
+            <input type="text" class="form-control" id="temas" name="temas" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Asesoría</button>
+    </form>
         <div class="text-center">
             <a href="{{ url_for('crear_usuario') }}" class="text-white">¿No tienes una cuenta? Regístrate</a>
             <!-- Enlace centrado que redirige a la página de registro para usuarios que aún no tienen cuenta -->

@@ -1,66 +1,123 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<!-- Contenedor principal con fondo -->
-<div style="
-    min-height: 100vh !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background-image: url('/static/FondoLogin1.jpg');
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;">
-    
-    <!-- Cambios Gabriel: --
-         - Removidas algunas clases de Bootstrap que podían interferir
-         - Agregado !important a los estilos para forzar los cambios
-         - Aumentado significativamente el border-radius -->
-         <!--Actualizacion ya se ven los bordes en el cuadro del login-->
-    <div class="bg-primary text-white" 
-         style="width: 600px !important; 
-                backdrop-filter: blur(10px);
-                border-radius: 70px !important;
-                padding: 50px !important;
-                box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-                background-color: #007BFF !important;">
-        <h2 class="text-center mb-4">Inicio de sesión</h2>
-        <form method="POST">
-            <div class="form-group">
-                <label for="email" class="text-white">Correo Electrónico</label>
-                <input type="email" class="form-control" name="email" placeholder="Ejemplo: usuario@correo.com" required 
-                       style="border-radius: 15px !important;">
+<!-- 
+    Cambios Gabriel:
+    1. Se modificó el contenedor principal para que la imagen cubra toda la pantalla
+    2. Se agregaron propiedades position: fixed para asegurar cobertura total
+    3. Se ajustó el tamaño con width: 100vw y height: 100vh
+    4. Se eliminaron las barras de desplazamiento con overflow: hidden
+    5. Se agregó z-index para la correcta superposición de elementos
+    6. Se implementó background-attachment: fixed para fondo estático
+-->
+<div class="login-container d-flex justify-content-center align-items-center" 
+     style="background: url('/static/FondoLogin1.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;">
+
+    <!-- 
+        Cambios Gabriel:
+        1. Se ajustó el ancho del card a 380px para mejor presentación
+        2. Se cambió el color de fondo a #0052FF para coincidir con el diseño
+        3. Se modificaron los bordes y sombras para mejor apariencia
+    -->
+    <div class="card border-0 shadow-lg rounded-3" style="width: 380px; background-color: #0052FF;">
+        <div class="card-body px-4 py-3">
+            <!-- Título -->
+            <h2 class="text-white text-center mb-4" style="font-size: 1.5rem;">Inicio de sesión</h2>
+
+            <!-- 
+                Cambios Gabriel:
+                1. Se optimizaron los espaciados entre elementos del formulario
+                2. Se ajustaron los tamaños de fuente para mejor legibilidad
+                3. Se modificaron los placeholders para coincidir con el diseño
+            -->
+            <form method="POST">
+                <!-- Campo de Correo -->
+                <div class="mb-2">
+                    <label for="email" class="form-label text-white mb-1" style="font-size: 0.9rem;">Correo Electrónico</label>
+                    <input type="email" 
+                           class="form-control bg-white rounded-2" 
+                           id="email" 
+                           name="email" 
+                           placeholder="Ejemplo: creadoricos@hotmail.com" 
+                           required>
+                </div>
+
+                <!-- Campo de Contraseña -->
+                <div class="mb-3">
+                    <label for="password" class="form-label text-white mb-1" style="font-size: 0.9rem;">Contraseña</label>
+                    <input type="password" 
+                           class="form-control bg-white rounded-2" 
+                           id="password" 
+                           name="password" 
+                           placeholder="Ejemplo: X343&Z.sas" 
+                           required>
+                </div>
+
+                <!-- Botón de Inicio -->
+                <div class="d-grid gap-2 mb-3">
+                    <button type="submit" class="btn btn-white bg-white rounded-2" style="color: #333;">Inicio</button>
+                </div>
+            </form>
+
+            <!-- 
+                Cambios Gabriel:
+                1. Se ajustó el espaciado en la sección de opciones alternativas
+                2. Se modificó el estilo de los botones de redes sociales
+                3. Se implementó un contenedor blanco con bordes redondeados
+            -->
+            <div class="text-white text-center mb-2" style="font-size: 0.9rem;">Otras opciones de inicio de sesión</div>
+
+            <!-- Botones de redes sociales -->
+            <div class="bg-white rounded-2 py-2 px-3 d-flex justify-content-between align-items-center mb-3">
+                <button class="btn btn-outline-dark btn-sm" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <i class="fab fa-x-twitter"></i>
+                </button>
+                <button class="btn btn-outline-danger btn-sm" style="width: 40px; height: 40px;">
+                    <i class="fab fa-google"></i>
+                </button>
+                <button class="btn btn-outline-primary btn-sm" style="width: 40px; height: 40px;">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
             </div>
-            <div class="form-group">
-                <label for="password" class="text-white">Contraseña</label>
-                <input type="password" class="form-control" name="password" placeholder="Contraseña" required
-                       style="border-radius: 15px !important;">
+
+            <!-- 
+                Cambios Gabriel:
+                1. Se optimizó el espaciado en la sección de registro
+                2. Se ajustó el tamaño de fuente para mejor legibilidad
+                3. Se mejoró la presentación del enlace de registro
+            -->
+            <div class="text-center">
+                <div class="text-white" style="font-size: 0.9rem;">¿No tienes una cuenta?</div>
+                <a href="{{ url_for('crear_usuario') }}" class="text-white text-decoration-none" style="font-size: 0.9rem;">Regístrate</a>
             </div>
-            <button type="submit" class="btn btn-light btn-block" 
-                    style="border-radius: 15px !important;">
-                Iniciar Sesión
-            </button>
-        </form>
-        <hr class="bg-light">
-        <div class="text-center">Otras opciones de inicio de sesión</div>
-        <div class="d-flex justify-content-around mt-2 p-2 bg-white" 
-             style="border-radius: 25px !important;">
-            <button class="btn btn-outline-dark">X</button>
-            <button class="btn btn-outline-danger">Google</button>
-            <button class="btn btn-outline-primary">Facebook</button>
-        </div>
-        <hr class="bg-light">
-        <div class="text-center">
-            <a href="{{ url_for('crear_usuario') }}" class="text-white">¿No tienes una cuenta? Regístrate</a>
         </div>
     </div>
 </div>
+
+<!-- 
+    Cambios Gabriel:
+    1. Se agregaron estilos adicionales para eliminar márgenes y padding innecesarios
+    2. Se implementó control de overflow para evitar scrollbars
+    3. Se agregó z-index para correcto apilamiento de elementos
+-->
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .login-container {
+        z-index: 1;
+    }
+</style>
 {% endblock %}

@@ -186,17 +186,23 @@ def nueva_asesoria():
         return redirect(url_for('dashboard_maestro'))
     return render_template('nueva_asesoria.html')
 
-@app.route('/registrar_asesoria/<int:id>', methods=['POST'])
+@app.route('/editar_asesoria_detalle/<int:id>', methods=['GET', 'POST'])
 @login_required
-def registrar_asesoria(id):
+def editar_asesoria_detalle(id):
     asesoria = Asesoria.query.get_or_404(id)
-    if current_user not in asesoria.alumnos:
-        asesoria.alumnos.append(current_user)
+    if asesoria.maestro_id != current_user.id:
+        flash('No tienes permiso para editar esta asesoría.')
+        return redirect(url_for('ver_asesorias_totales'))
+
+    if request.method == 'POST':
+        asesoria.descripcion = request.form['descripcion']
+        asesoria.costo = request.form['costo']
+        asesoria.max_alumnos = request.form['max_alumnos']
+        asesoria.temas = request.form['temas']
         db.session.commit()
-        flash('Te has registrado en la asesoría con éxito.')
-    else:
-        flash('Ya estás registrado en esta asesoría.')
-    return redirect(url_for('dashboard_alumno'))
+        flash('Asesoría actualizada con éxito.')
+        return redirect(url_for('dashboard_maestro'))
+    return render_template('editar_asesoria.html', asesoria=asesoria)
 
 
 # Ruta para ver los detalles de una asesoría - Pacheco

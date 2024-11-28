@@ -10,6 +10,11 @@
     <!-- Establece el viewport para que la página sea responsive en dispositivos móviles -->
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
     <!-- Importa la hoja de estilos de Bootstrap para usar su sistema de diseño y componentes predefinidos -->
     
     <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
@@ -18,6 +23,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- Importa la hoja de estilos de Font Awesome para usar íconos -->
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Cambios-de-Daniel
+>>>>>>> Stashed changes
     <title>{% block title %}Tu Título{% endblock %}</title>
     <!-- Define el título de la página; usa bloques de plantillas para permitir que otras páginas establezcan su propio título -->
 </head>
@@ -25,6 +34,31 @@
 <body>
     <!-- Inicio del cuerpo de la página -->
     <div class="container">
+<<<<<<< Updated upstream
+        <!-- Contenedor central con la clase 'container' de Bootstrap para centrar y ajustar el contenido -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- Bloque para manejar mensajes flash que se mostrarán temporalmente -->
+        
+=======
+<<<<<<< HEAD
+        {% block content %}{% endblock %}
+        {% with messages = get_flashed_messages() %}
+>>>>>>> Stashed changes
+            {% if messages %}
+            <!-- Verifica si existen mensajes flash -->
+            
+                {% for category, message in messages %}
+                <!-- Itera sobre cada mensaje en la lista de mensajes flash -->
+                
+                    <div class="alert alert-{{ category }}" role="alert">
+                        <!-- Crea una alerta usando la clase Bootstrap correspondiente a la categoría -->
+                        {{ message }}
+<<<<<<< Updated upstream
+=======
+                    {% endfor %}
+                </div>
+=======
         <!-- Contenedor central con la clase 'container' de Bootstrap para centrar y ajustar el contenido -->
 
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -39,20 +73,34 @@
                     <div class="alert alert-{{ category }}" role="alert">
                         <!-- Crea una alerta usando la clase Bootstrap correspondiente a la categoría -->
                         {{ message }}
+>>>>>>> Stashed changes
                         <!-- Muestra el contenido del mensaje flash -->
                     </div>
 
                 {% endfor %}
                 <!-- Fin de la iteración de mensajes flash -->
                 
+<<<<<<< Updated upstream
             {% endif %}
             <!-- Fin de la verificación de existencia de mensajes flash -->
         {% endwith %}
+=======
+>>>>>>> Cambios-de-Daniel
+            {% endif %}
+            <!-- Fin de la verificación de existencia de mensajes flash -->
+        {% endwith %}
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
         <!-- Fin del bloque de mensajes flash -->
         
         {% block content %}{% endblock %}
         <!-- Bloque de contenido principal; se utilizará para insertar el contenido específico de cada página -->
         
+<<<<<<< Updated upstream
+=======
+>>>>>>> Cambios-de-Daniel
+>>>>>>> Stashed changes
     </div>
     <!-- Fin del contenedor principal -->
 
@@ -64,9 +112,18 @@
     <!-- Incluye Popper.js, necesario para las funciones de posicionamiento de Bootstrap (por ejemplo, tooltips) -->
     
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
     <!-- Incluye el script de Bootstrap para los componentes interactivos (como modales, menús, etc.) -->
 
     {% block scripts %}{% endblock %}
     <!-- Bloque de scripts adicionales que puedan necesitar otras plantillas -->
+<<<<<<< Updated upstream
+=======
+>>>>>>> Cambios-de-Daniel
+>>>>>>> Stashed changes
 </body>
 </html>

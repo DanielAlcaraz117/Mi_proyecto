@@ -7,7 +7,94 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <!-- Barra de navegación usando Bootstrap con estilo oscuro y color de fondo azul (bg-primary) -->
 
-    <a class="navbar-brand" href="#">Asesorías</a>
+    <a class="navbar-brand" href="#">Asesorías Alumnos</a>
+    <!-- Logo o título de la aplicación en la barra de navegación -->
+
+    <div class="collapse navbar-collapse">
+        <!-- Contenedor de los elementos de la barra de navegación para que se desplieguen cuando el menú colapsa -->
+
+        <ul class="navbar-nav ml-auto">
+            <!-- Lista de elementos de navegación alineada a la derecha (ml-auto) -->
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                <!-- Enlace para cerrar sesión, generado dinámicamente con 'url_for' -->
+            </li>
+
+        </ul>
+    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Enlace a tu archivo CSS -->
+    <title>Alumno</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <button class="btn btn-outline-light" onclick="window.history.back();">← Regresar</button>
+            <a class="navbar-brand mx-auto" href="#">Alumno</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container my-2 py-2">
+        <h1 class="text-center mb-4">Asesorías Disponibles</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Costo</th>
+                            <th>Máximo de Alumnos</th>
+                            <th>Temas</th>
+                            <th>Maestro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for asesoria, maestro in asesorias %}
+                            <tr>
+                                <td>{{ asesoria.descripcion }}</td>
+                                <td>{{ asesoria.costo }}</td>
+                                <td>{{ asesoria.max_alumnos }}</td>
+                                <td>{{ asesoria.temas }}</td>
+                                <td>{{ maestro.nombre }}</td>
+                                <td>
+                                    <a href="{{ url_for('ver_asesoria', id=asesoria.id) }}" class="btn btn-info">Ver Detalles</a>
+                                    <form action="{{ url_for('registrar_asesoria', id=asesoria.id) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-primary">Registrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% extends 'base.html' %}
+<!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
+
+{% block content %}
+<!-- Inicia el bloque de contenido personalizado -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Barra de navegación usando Bootstrap con estilo oscuro y color de fondo azul (bg-primary) -->
+
+    <a class="navbar-brand" href="#">Asesorías Alumnos</a>
     <!-- Logo o título de la aplicación en la barra de navegación -->
 
     <div class="collapse navbar-collapse">
@@ -30,6 +117,10 @@
 
     <h2 class="text-center">Asesorías Disponibles</h2>
     <!-- Título centrado para la sección de asesorías -->
+
+    <!-- Botón de retroceso -->
+    <button class="btn btn-secondary mb-3" onclick="window.history.back()"><i class="fas fa-arrow-left"></i> Volver</button>
+    <!-- Botón para regresar a la página anterior usando JavaScript -->
 
     <table class="table table-bordered mt-3">
         <!-- Tabla con bordes para listar las asesorías, con margen superior (mt-3) -->

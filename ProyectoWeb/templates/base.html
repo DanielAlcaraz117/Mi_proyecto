@@ -12,6 +12,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Importa la hoja de estilos de Bootstrap para usar su sistema de diseño y componentes predefinidos -->
     
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
+    <!-- Importa la hoja de estilos personalizada para el tema de colores -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Importa la hoja de estilos de Font Awesome para usar íconos -->
+
     <title>{% block title %}Tu Título{% endblock %}</title>
     <!-- Define el título de la página; usa bloques de plantillas para permitir que otras páginas establezcan su propio título -->
 </head>
@@ -21,27 +27,49 @@
     <div class="container">
         <!-- Contenedor central con la clase 'container' de Bootstrap para centrar y ajustar el contenido -->
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- Bloque para manejar mensajes flash que se mostrarán temporalmente -->
+        
+        {% block content %}{% endblock %}
         {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <!-- Verifica si existen mensajes flash -->
+            
+                {% for category, message in messages %}
+                <!-- Itera sobre cada mensaje en la lista de mensajes flash -->
+                
+                    <div class="alert alert-{{ category }}" role="alert">
+                        <!-- Crea una alerta usando la clase Bootstrap correspondiente a la categoría -->
+                        {{ message }}
+                    {% endfor %}
+                </div>
+        <!-- Contenedor central con la clase 'container' de Bootstrap para centrar y ajustar el contenido -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
         <!-- Bloque para manejar mensajes flash que se mostrarán temporalmente -->
         
             {% if messages %}
             <!-- Verifica si existen mensajes flash -->
             
-                <div class="alert alert-info" role="alert">
-                    <!-- Crea una alerta de tipo informativo usando Bootstrap si hay mensajes -->
-                    
-                    {% for message in messages %}
-                    <!-- Itera sobre cada mensaje en la lista de mensajes flash -->
-                    
+                {% for category, message in messages %}
+                <!-- Itera sobre cada mensaje en la lista de mensajes flash -->
+                
+                    <div class="alert alert-{{ category }}" role="alert">
+                        <!-- Crea una alerta usando la clase Bootstrap correspondiente a la categoría -->
                         {{ message }}
                         <!-- Muestra el contenido del mensaje flash -->
-                        
-                    {% endfor %}
-                </div>
-                <!-- Fin de la alerta que muestra los mensajes flash -->
+                    </div>
+
+                {% endfor %}
+                <!-- Fin de la iteración de mensajes flash -->
                 
             {% endif %}
+            <!-- Fin de la verificación de existencia de mensajes flash -->
         {% endwith %}
+            {% endif %}
+            <!-- Fin de la verificación de existencia de mensajes flash -->
+        {% endwith %}
+        <!-- Fin del bloque de mensajes flash -->
         
         {% block content %}{% endblock %}
         <!-- Bloque de contenido principal; se utilizará para insertar el contenido específico de cada página -->
@@ -58,6 +86,10 @@
     
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Incluye el script de Bootstrap para los componentes interactivos (como modales, menús, etc.) -->
+
+    {% block scripts %}{% endblock %}
+    <!-- Bloque de scripts adicionales que puedan necesitar otras plantillas -->
 </body>
 </html>
     <!-- prueva -->
+</html>

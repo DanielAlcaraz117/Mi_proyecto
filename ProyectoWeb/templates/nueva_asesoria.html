@@ -1,189 +1,41 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2 class="text-center">Crear Nueva Asesoría</h2>
-<!-- Inicia el bloque de contenido personalizado -->
-<h2 class="text-center">Nueva Asesoría</h2>
-<form method="POST" action="{{ url_for('nueva_asesoria') }}">
-    <div class="form-group">
-        <label for="descripcion">Descripción</label>
-        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
-
+<!-- Contenedor principal con imagen de fondo y centrado -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-image: url('/static/FondoLogin1.jpg'); background-size: cover; background-position: center;">
-    <!-- Contenedor principal con alineación centrada, imagen de fondo y altura mínima de toda la ventana (100vh) -->
-
     <div class="border border-dark p-4 bg-primary text-white rounded shadow-lg" style="width: 400px; backdrop-filter: blur(10px);">
-        <!-- Caja que contiene el formulario, con bordes oscuros, fondo azul, texto blanco, esquinas redondeadas y sombra, además de un filtro de desenfoque en el fondo -->
+        <!-- Caja de formulario con estilo centrado y efectos -->
+        <h2 class="text-center mb-4">Nueva Asesoría</h2>
 
-        <h2 class="text-center mb-4">Inicio de sesión</h2>
-        <!-- Título centrado para la sección de inicio de sesión -->
-
-        <form method="POST">
-            <!-- Formulario para el inicio de sesión, utilizando el método POST para enviar los datos ingresados -->
-
+        <!-- Formulario para agregar nueva asesoría -->
+        <form method="POST" action="{{ url_for('nueva_asesoria') }}">
             <div class="form-group">
-                <!-- Grupo de formulario que contiene el campo de correo electrónico -->
-
-                <label for="email" class="text-white">Correo Electrónico</label>
-                <!-- Etiqueta para el campo de correo electrónico con texto en color blanco -->
-
-                <input type="email" class="form-control" name="email" placeholder="Ejemplo: usuario@correo.com" required>
-                <!-- Campo de entrada para el correo electrónico, obligatorio y con formato de texto de ayuda -->
+                <label for="descripcion">Descripción</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
             </div>
 
             <div class="form-group">
-                <!-- Grupo de formulario que contiene el campo de contraseña -->
-
-                <label for="password" class="text-white">Contraseña</label>
-                <!-- Etiqueta para el campo de contraseña con texto en color blanco -->
-
-                <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
-                <!-- Campo de entrada para la contraseña, obligatorio y con texto de ayuda -->
+                <label for="costo">Costo</label>
+                <input type="number" class="form-control" id="costo" name="costo" required>
             </div>
 
-            <button type="submit" class="btn btn-light btn-block">Iniciar Sesión</button>
-            <!-- Botón para enviar el formulario de inicio de sesión, con estilo claro y ocupando todo el ancho del contenedor -->
+            <div class="form-group">
+                <label for="max_alumnos">Máximo de Alumnos</label>
+                <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" required>
+            </div>
+
+            <div class="form-group">
+                <label for="temas">Temas</label>
+                <input type="text" class="form-control" id="temas" name="temas" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Agregar Asesoría</button>
         </form>
 
-        <hr class="bg-light">
-        <!-- Línea divisoria clara para separar el formulario de inicio de sesión de las opciones de inicio alternativo -->
-
-        <div class="text-center">Otras opciones de inicio de sesión</div>
-        <!-- Texto centrado para indicar otras opciones de inicio de sesión -->
-
-        <div class="d-flex justify-content-around mt-2 p-2 bg-white" style="border-radius: 10px;">
-            <!-- Contenedor para los botones de inicio de sesión adicionales, con diseño en blanco y bordes redondeados -->
-
-            <button class="btn btn-outline-dark">X</button>
-            <!-- Botón con borde oscuro que representa un inicio de sesión alternativo (placeholder con 'X') -->
-
-            <button class="btn btn-outline-danger">Google</button>
-            <!-- Botón con borde rojo para el inicio de sesión con Google -->
-
-            <button class="btn btn-outline-primary">Facebook</button>
-            <!-- Botón con borde azul para el inicio de sesión con Facebook -->
-<button class="btn btn-outline-primary" onclick="window.history.back();" style="position: absolute; top: 10px; left: 10px;">← Regresar</button>
-<div class="container mt-4">
-    <h2 class="text-center">Agregar Nueva Asesoría</h2>
-    <form method="POST" action="{{ url_for('nueva_asesoria') }}">
-        <div class="form-group">
-            <label for="descripcion">Descripción</label>
-            <input type="text" class="form-control" id="descripcion" name="descripcion" required>
-        </div>
-
-        <hr class="bg-light">
-        <!-- Otra línea divisoria clara para separar las opciones de inicio de sesión alternativo del enlace de registro -->
-        <div class="form-group">
-            <label for="costo">Costo</label>
-            <input type="number" class="form-control" id="costo" name="costo" required>
-<!-- Inicia el bloque de contenido personalizado -->
-<h2 class="text-center">Nueva Asesoría</h2>
-<form method="POST" action="{{ url_for('nueva_asesoria') }}">
-    <div class="form-group">
-        <label for="descripcion">Descripción</label>
-        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
-
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-image: url('/static/FondoLogin1.jpg'); background-size: cover; background-position: center;">
-    <!-- Contenedor principal con alineación centrada, imagen de fondo y altura mínima de toda la ventana (100vh) -->
-
-    <div class="border border-dark p-4 bg-primary text-white rounded shadow-lg" style="width: 400px; backdrop-filter: blur(10px);">
-        <!-- Caja que contiene el formulario, con bordes oscuros, fondo azul, texto blanco, esquinas redondeadas y sombra, además de un filtro de desenfoque en el fondo -->
-
-        <h2 class="text-center mb-4">Inicio de sesión</h2>
-        <!-- Título centrado para la sección de inicio de sesión -->
-
-        <form method="POST">
-            <!-- Formulario para el inicio de sesión, utilizando el método POST para enviar los datos ingresados -->
-
-            <div class="form-group">
-                <!-- Grupo de formulario que contiene el campo de correo electrónico -->
-
-                <label for="email" class="text-white">Correo Electrónico</label>
-                <!-- Etiqueta para el campo de correo electrónico con texto en color blanco -->
-
-                <input type="email" class="form-control" name="email" placeholder="Ejemplo: usuario@correo.com" required>
-                <!-- Campo de entrada para el correo electrónico, obligatorio y con formato de texto de ayuda -->
-            </div>
-
-            <div class="form-group">
-                <!-- Grupo de formulario que contiene el campo de contraseña -->
-
-                <label for="password" class="text-white">Contraseña</label>
-                <!-- Etiqueta para el campo de contraseña con texto en color blanco -->
-
-                <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
-                <!-- Campo de entrada para la contraseña, obligatorio y con texto de ayuda -->
-            </div>
-
-            <button type="submit" class="btn btn-light btn-block">Iniciar Sesión</button>
-            <!-- Botón para enviar el formulario de inicio de sesión, con estilo claro y ocupando todo el ancho del contenedor -->
-        </form>
-
-        <hr class="bg-light">
-        <!-- Línea divisoria clara para separar el formulario de inicio de sesión de las opciones de inicio alternativo -->
-
-        <div class="text-center">Otras opciones de inicio de sesión</div>
-        <!-- Texto centrado para indicar otras opciones de inicio de sesión -->
-
-        <div class="d-flex justify-content-around mt-2 p-2 bg-white" style="border-radius: 10px;">
-            <!-- Contenedor para los botones de inicio de sesión adicionales, con diseño en blanco y bordes redondeados -->
-
-            <button class="btn btn-outline-dark">X</button>
-            <!-- Botón con borde oscuro que representa un inicio de sesión alternativo (placeholder con 'X') -->
-
-            <button class="btn btn-outline-danger">Google</button>
-            <!-- Botón con borde rojo para el inicio de sesión con Google -->
-
-            <button class="btn btn-outline-primary">Facebook</button>
-            <!-- Botón con borde azul para el inicio de sesión con Facebook -->
-        </div>
-
-        <hr class="bg-light">
-        <!-- Otra línea divisoria clara para separar las opciones de inicio de sesión alternativo del enlace de registro -->
-        <div class="form-group">
-            <label for="costo">Costo</label>
-            <input type="number" class="form-control" id="costo" name="costo" required>
-        </div>
-        <div class="form-group">
-            <label for="max_alumnos">Máximo de Alumnos</label>
-            <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" required>
-        </div>
-        <div class="form-group">
-            <label for="temas">Temas</label>
-            <input type="text" class="form-control" id="temas" name="temas" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Asesoría</button>
-    </form>
-        <div class="text-center">
+        <!-- Enlace para registro si el usuario no tiene cuenta -->
+        <div class="text-center mt-3">
             <a href="{{ url_for('crear_usuario') }}" class="text-white">¿No tienes una cuenta? Regístrate</a>
-            <!-- Enlace centrado que redirige a la página de registro para usuarios que aún no tienen cuenta -->
-        </div>
-        <div class="form-group">
-            <label for="max_alumnos">Máximo de Alumnos</label>
-            <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" required>
-        </div>
-        <div class="form-group">
-            <label for="temas">Temas</label>
-            <input type="text" class="form-control" id="temas" name="temas" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Asesoría</button>
-    </form>
-        <div class="text-center">
-            <a href="{{ url_for('crear_usuario') }}" class="text-white">¿No tienes una cuenta? Regístrate</a>
-            <!-- Enlace centrado que redirige a la página de registro para usuarios que aún no tienen cuenta -->
         </div>
     </div>
-    <div class="form-group">
-        <label for="costo">Costo</label>
-        <input type="number" class="form-control" id="costo" name="costo" required>
-    </div>
-    <div class="form-group">
-        <label for="max_alumnos">Máximo de Alumnos</label>
-        <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" required>
-    </div>
-    <div class="form-group">
-        <label for="temas">Temas</label>
-        <input type="text" class="form-control" id="temas" name="temas" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Crear Asesoría</button>
-</form>
+</div>
 {% endblock %}

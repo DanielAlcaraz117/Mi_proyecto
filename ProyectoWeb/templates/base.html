@@ -29,48 +29,19 @@
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         <!-- Bloque para manejar mensajes flash que se mostrarán temporalmente -->
-        
-        {% block content %}{% endblock %}
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
+        {% if messages %}
             <!-- Verifica si existen mensajes flash -->
-            
-                {% for category, message in messages %}
+            {% for category, message in messages %}
                 <!-- Itera sobre cada mensaje en la lista de mensajes flash -->
-                
-                    <div class="alert alert-{{ category }}" role="alert">
-                        <!-- Crea una alerta usando la clase Bootstrap correspondiente a la categoría -->
-                        {{ message }}
-                    {% endfor %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    <!-- Crea una alerta usando la clase Bootstrap correspondiente a la categoría -->
+                    {{ message }}
                 </div>
-        <!-- Contenedor central con la clase 'container' de Bootstrap para centrar y ajustar el contenido -->
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        <!-- Bloque para manejar mensajes flash que se mostrarán temporalmente -->
-        
-            {% if messages %}
-            <!-- Verifica si existen mensajes flash -->
-            
-                {% for category, message in messages %}
-                <!-- Itera sobre cada mensaje en la lista de mensajes flash -->
-                
-                    <div class="alert alert-{{ category }}" role="alert">
-                        <!-- Crea una alerta usando la clase Bootstrap correspondiente a la categoría -->
-                        {{ message }}
-                        <!-- Muestra el contenido del mensaje flash -->
-                    </div>
-
-                {% endfor %}
-                <!-- Fin de la iteración de mensajes flash -->
-                
-            {% endif %}
-            <!-- Fin de la verificación de existencia de mensajes flash -->
-        {% endwith %}
-            {% endif %}
-            <!-- Fin de la verificación de existencia de mensajes flash -->
+            {% endfor %}
+        {% endif %}
         {% endwith %}
         <!-- Fin del bloque de mensajes flash -->
-        
+
         {% block content %}{% endblock %}
         <!-- Bloque de contenido principal; se utilizará para insertar el contenido específico de cada página -->
         
@@ -90,6 +61,4 @@
     {% block scripts %}{% endblock %}
     <!-- Bloque de scripts adicionales que puedan necesitar otras plantillas -->
 </body>
-</html>
-    <!-- prueva -->
 </html>

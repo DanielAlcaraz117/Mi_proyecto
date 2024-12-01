@@ -1,26 +1,41 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<button class="btn btn-outline-primary" onclick="window.history.back();" style="position: absolute; top: 10px; left: 10px;">← Regresar</button>
-<div class="container mt-4">
-    <h2 class="text-center">Agregar Nueva Asesoría</h2>
-    <form method="POST" action="{{ url_for('nueva_asesoria') }}">
-        <div class="form-group">
-            <label for="descripcion">Descripción</label>
-            <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+<!-- Contenedor principal con imagen de fondo y centrado -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-image: url('/static/FondoLogin1.jpg'); background-size: cover; background-position: center;">
+    <div class="border border-dark p-4 bg-primary text-white rounded shadow-lg" style="width: 400px; backdrop-filter: blur(10px);">
+        <!-- Caja de formulario con estilo centrado y efectos -->
+        <h2 class="text-center mb-4">Nueva Asesoría</h2>
+
+        <!-- Formulario para agregar nueva asesoría -->
+        <form method="POST" action="{{ url_for('nueva_asesoria') }}">
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+            </div>
+
+            <div class="form-group">
+                <label for="costo">Costo</label>
+                <input type="number" class="form-control" id="costo" name="costo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="max_alumnos">Máximo de Alumnos</label>
+                <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" required>
+            </div>
+
+            <div class="form-group">
+                <label for="temas">Temas</label>
+                <input type="text" class="form-control" id="temas" name="temas" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Agregar Asesoría</button>
+        </form>
+
+        <!-- Enlace para registro si el usuario no tiene cuenta -->
+        <div class="text-center mt-3">
+            <a href="{{ url_for('crear_usuario') }}" class="text-white">¿No tienes una cuenta? Regístrate</a>
         </div>
-        <div class="form-group">
-            <label for="costo">Costo</label>
-            <input type="number" class="form-control" id="costo" name="costo" required>
-        </div>
-        <div class="form-group">
-            <label for="max_alumnos">Máximo de Alumnos</label>
-            <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" required>
-        </div>
-        <div class="form-group">
-            <label for="temas">Temas</label>
-            <input type="text" class="form-control" id="temas" name="temas" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar Asesoría</button>
-    </form>
+    </div>
 </div>
 {% endblock %}

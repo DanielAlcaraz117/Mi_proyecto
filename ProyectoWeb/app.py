@@ -218,7 +218,7 @@ def borrar_asesoria(id):
     flash('Asesoría eliminada con éxito.')
     return redirect(url_for('dashboard_maestro'))
 
-# Ruta para editar una asesoría - Gabo
+# Ruta para editar una asesoría
 @app.route('/editar_asesoria/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_asesoria(id):

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<button class="btn btn-outline-primary" onclick="window.history.back();" style="position: absolute; top: 10px; left: 10px;">← Regresar</button>
+<button class="btn btn-outline-primary" onclick="window.history.back();" style="position: absolute; top: 10px; left: 10px;">←</button>
 <div class="container mt-4">
     <h2 class="text-center">Editar Asesoría</h2>
     <form method="POST" action="{{ url_for('editar_asesoria', id=asesoria.id) }}">

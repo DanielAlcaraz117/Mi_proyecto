@@ -57,7 +57,11 @@ def login():
         user = User.query.filter_by(email=email, password=password).first()
         if user:
             login_user(user)
-            return redirect(url_for('dashboard_alumno' if user.rol == 'alumno' else 'dashboard_maestro'))
+            # Asegúrate de redirigir al dashboard correcto basado en el rol del usuario
+            if user.rol == 'alumno':
+                return redirect(url_for('dashboard_alumno'))
+            elif user.rol == 'maestro':
+                return redirect(url_for('dashboard_maestro'))
         else:
             flash('Credenciales incorrectas.')
     return render_template('login.html')
@@ -93,6 +97,12 @@ def registro_maestro():
             flash('Las contraseñas no coinciden.')
             return redirect(url_for('registro_maestro'))
         
+        # Verificar si el correo ya existe
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('El correo ya está registrado. Usa uno diferente.')
+            return redirect(url_for('registro_maestro'))
+        
         # Guardar la foto en el directorio estático
         if foto:
             foto_filename = foto.filename
@@ -121,12 +131,20 @@ def registro_alumno():
         if password != confirm_password:
             flash('Las contraseñas no coinciden.')
             return redirect(url_for('registro_alumno'))
+
+        # Verificar si el correo ya existe
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('El correo ya está registrado. Usa uno diferente.')
+            return redirect(url_for('registro_alumno'))
+
         nuevo_alumno = User(nombre=nombre, email=email, password=password, rol='alumno')
         db.session.add(nuevo_alumno)
         db.session.commit()
         flash('Alumno registrado con éxito.')
         return redirect(url_for('login'))
     return render_template('registro_alumno.html')
+
 
 # Ruta para el dashboard del maestro
 @app.route('/dashboard_maestro')

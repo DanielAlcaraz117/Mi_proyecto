@@ -1,107 +1,50 @@
 {% extends 'base.html' %}
-<!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
-
 {% block content %}
-<!-- Inicia el bloque de contenido personalizado -->
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <!-- Barra de navegación usando Bootstrap con estilo oscuro y color de fondo azul (bg-primary) -->
-
-    <a class="navbar-brand" href="#">Asesorías</a>
+    <a class="navbar-brand" href="#">Asesorías Alumnos</a>
     <!-- Logo o título de la aplicación en la barra de navegación -->
-
     <div class="collapse navbar-collapse">
-        <!-- Contenedor de los elementos de la barra de navegación para que se desplieguen cuando el menú colapsa -->
-
         <ul class="navbar-nav ml-auto">
-            <!-- Lista de elementos de navegación alineada a la derecha (ml-auto) -->
-
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
-                <!-- Enlace para cerrar sesión, generado dinámicamente con 'url_for' -->
             </li>
-
         </ul>
     </div>
 </nav>
-
 <div class="container mt-4">
-    <!-- Contenedor principal con margen superior (mt-4) -->
-
     <h2 class="text-center">Asesorías Disponibles</h2>
     <!-- Título centrado para la sección de asesorías -->
-
+    <button class="btn btn-secondary mb-3" onclick="window.history.back()"><i class="fas fa-arrow-left"></i> Volver</button>
+    <!-- Botón para regresar a la página anterior usando JavaScript -->
     <table class="table table-bordered mt-3">
-        <!-- Tabla con bordes para listar las asesorías, con margen superior (mt-3) -->
-
         <thead>
-            <!-- Encabezado de la tabla -->
             <tr>
                 <th>Descripción</th>
-                <!-- Columna para la descripción de la asesoría -->
-
                 <th>Costo</th>
-                <!-- Columna para mostrar el costo de la asesoría -->
-
                 <th>Máximo de Alumnos</th>
-                <!-- Columna para el número máximo de alumnos permitidos -->
-
                 <th>Temas</th>
-                <!-- Columna que muestra los temas a tratar en la asesoría -->
-
                 <th>Maestro</th>
-                <!-- Columna con el nombre del maestro que imparte la asesoría -->
-
                 <th>Acciones</th>
-                <!-- Columna para botones de acción (ver detalles y registrar) -->
             </tr>
         </thead>
-
         <tbody>
-            <!-- Cuerpo de la tabla donde se listan las asesorías -->
-
             {% for asesoria, maestro in asesorias %}
-            <!-- Itera sobre la lista de asesorías, accediendo a cada asesoría y su respectivo maestro -->
-
                 <tr>
-                    <!-- Fila de la tabla para cada asesoría -->
-
                     <td>{{ asesoria.descripcion }}</td>
-                    <!-- Muestra la descripción de la asesoría -->
-
                     <td>{{ asesoria.costo }}</td>
-                    <!-- Muestra el costo de la asesoría -->
-
                     <td>{{ asesoria.max_alumnos }}</td>
-                    <!-- Muestra el máximo de alumnos permitido -->
-
                     <td>{{ asesoria.temas }}</td>
-                    <!-- Muestra los temas de la asesoría -->
-
                     <td>{{ maestro.nombre }}</td>
-                    <!-- Muestra el nombre del maestro encargado de la asesoría -->
-
                     <td>
-                        <!-- Columna de acciones -->
-
                         <a href="{{ url_for('ver_asesoria', id=asesoria.id) }}" class="btn btn-info">Ver Detalles</a>
-                        <!-- Botón para ver detalles de la asesoría, con enlace generado dinámicamente -->
-
                         <form action="{{ url_for('registrar_asesoria', id=asesoria.id) }}" method="POST" style="display:inline;">
-                            <!-- Formulario para registrar al usuario en la asesoría, con el método POST y estilo inline para alinearse con el botón anterior -->
-
                             <button type="submit" class="btn btn-primary">Registrar</button>
-                            <!-- Botón para enviar el formulario y registrar en la asesoría -->
                         </form>
-
                     </td>
                 </tr>
-
             {% endfor %}
-            <!-- Fin del bucle for que recorre cada asesoría y maestro -->
         </tbody>
     </table>
 </div>
-
 {% endblock %}
-<!-- Fin del bloque de contenido personalizado -->

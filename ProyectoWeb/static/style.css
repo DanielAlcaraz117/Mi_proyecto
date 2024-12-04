@@ -1,129 +1,130 @@
+/* Estilos generales del cuerpo */
 body {
-    font-family: Arial, sans-serif;
-    /* Fondo predeterminado */
-    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: url('/static/Fondo1.jpeg') no-repeat center center fixed; /* Imagen de fondo */
+    background-size: cover;
+    font-family: Arial, sans-serif; /* Fuente general */
 }
 
-.container {
-    /* Alineación del contenedor principal */
+/* Estilo para el contenedor principal */
+.container-fluid {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* Imagen de fondo */
-    background-image: url('/static/FondoLogin1.jpg'); /* Ruta de la imagen de fondo */
-    background-size: cover; /* Tamaño de la imagen */
-    background-position: center; /* Posición de la imagen */
 }
 
-.border {
-    /* Estilo del contenedor del formulario */
-    background-color: #007BFF; /* Azul de fondo */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+/* Estilos para el cuadro de inicio de sesión */
+.login-box {
+    background-color: rgba(0, 123, 255, 0.85); /* Fondo ligeramente transparente */
+    padding: 30px;
+    border-radius: 20px; /* Bordes más redondeados */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
     width: 400px;
-    backdrop-filter: blur(10px); /* Efecto de desenfoque de fondo */
+    backdrop-filter: blur(10px); /* Desenfoque del fondo */
 }
 
+/* Estilos para el título */
 h2 {
     margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 28px; /* Fuente un poco más grande */
+    font-weight: bold; /* Negrita */
 }
 
+/* Estilos para las etiquetas */
 label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: bold; /* Negrita */
 }
 
+/* Estilos para los campos de entrada */
 input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px; /* Un poco más de padding */
+    margin-bottom: 15px; /* Espaciado entre los campos */
+    border: 1px solid #ccc; /* Bordes grises claros */
+    border-radius: 10px; /* Bordes redondeados */
 }
 
+/* Estilos para el foco en los campos de entrada y botones */
+input:focus, button:focus {
+    outline: none;
+    border-color: #0056b3; /* Color de borde al enfocar */
+    box-shadow: 0 0 5px #0056b3; /* Sombra al enfocar */
+}
+
+/* Estilos para los botones */
 button {
-    background-color: white; /* Botones blancos */
-    color: #007BFF; /* Texto azul */
+    background-color: white;
+    color: #007BFF;
     border: none;
-    padding: 10px;
-    border-radius: 4px;
+    padding: 12px; /* Un poco más de padding */
+    border-radius: 10px; /* Bordes redondeados */
     cursor: pointer;
+    font-weight: bold; /* Negrita */
 }
 
+/* Estilos para los botones al pasar el ratón */
 button:hover {
-    background-color: lightgray; /* Fondo gris claro al pasar el ratón */
+    background-color: lightgray; /* Color de fondo al pasar el ratón */
 }
 
+/* Estilos para texto centrado */
 .text-center {
     text-align: center;
-    font-weight: bold;
+    font-weight: bold; /* Negrita */
 }
 
+/* Estilos para margen inferior */
 .mb-4 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem; /* Margen inferior */
 }
 
+/* Estilos para margen superior */
 .mt-2 {
-    margin-top: 10px;
+    margin-top: 10px; /* Margen superior */
 }
 
-.btn-outline-dark {
-    background-color: transparent;
-    color: black;
-    border: 1px solid black;
-}
-
-.btn-outline-dark:hover {
-    background-color: black;
-    color: white;
-}
-
-.btn-outline-primary {
-    background-color: #3b5998; /* Azul de Facebook */
-    color: white;
-    border: 1px solid #3b5998;
-}
-
-.btn-outline-primary:hover {
-    background-color: white;
-    color: #3b5998;
-}
-
+/* Estilos para botones de Google */
 .btn-outline-danger {
     background-color: #DB4437; /* Rojo de Google */
     color: white;
-    border: 1px solid #DB4437;
+    border: 1px solid #DB4437; /* Borde rojo */
 }
 
+/* Estilos para botones de Google al pasar el ratón */
 .btn-outline-danger:hover {
-    background-color: white;
-    color: #DB4437;
+    background-color: white; /* Fondo blanco al pasar el ratón */
+    color: #DB4437; /* Texto rojo al pasar el ratón */
 }
 
+/* Flexbox */
 .d-flex {
-    display: flex;
+    display: flex; /* Muestra en flexbox */
 }
 
+/* Justificación alrededor */
 .justify-content-around {
-    justify-content: space-around;
+    justify-content: space-around; /* Espacio entre los elementos */
 }
 
+/* Estilos para padding */
 .p-2 {
-    padding: 10px;
+    padding: 10px; /* Padding de 10px */
 }
 
+/* Fondo blanco con bordes redondeados */
 .bg-white {
-    background-color: white;
-    border-radius: 10px;
+    background-color: white; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
 }
 
+/* Línea divisoria clara */
 hr.bg-light {
-    background-color: white;
-    border: none;
-    height: 1px;
+    background-color: white; /* Color de fondo */
+    border: none; /* Sin borde */
+    height: 1px; /* Altura de 1px */
 }

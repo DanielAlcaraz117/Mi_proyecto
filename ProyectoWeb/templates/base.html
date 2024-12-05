@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Importa la hoja de estilos de Bootstrap para usar su sistema de diseño y componentes predefinidos -->
     <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
-    <!-- Importa la hoja de estilos personalizada para el tema de colores -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!-- Importa la hoja de estilos de Font Awesome para usar íconos -->
     <title>{% block title %}Tu Título{% endblock %}</title>
     <script>
         function confirmarCerrarSesion() {
@@ -21,29 +18,12 @@
 </head>
 <body>
     <div class="container">
-        <!-- Contenedor central con la clase 'container' de Bootstrap para centrar y ajustar el contenido -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        <!-- Bloque para manejar mensajes flash que se mostrarán temporalmente -->
-        {% if messages %}
-            <!-- Verifica si existen mensajes flash -->
-            {% for category, message in messages %}
-                <!-- Itera sobre cada mensaje en la lista de mensajes flash -->
-                <div class="alert alert-{{ category }}" role="alert">
-                    <!-- Crea una alerta usando la clase Bootstrap correspondiente a la categoría -->
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-        <!-- Fin del bloque de mensajes flash -->
         {% block content %}{% endblock %}
-        <!-- Bloque de contenido principal; se utilizará para insertar el contenido específico de cada página -->
+        {% block flash_messages %}{% endblock %}
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Incluye el script de Bootstrap para los componentes interactivos (como modales, menús, etc.) -->
     {% block scripts %}{% endblock %}
-    <!-- Bloque de scripts adicionales que puedan necesitar otras plantillas -->
 </body>
 </html>

@@ -161,11 +161,14 @@ def dashboard_alumno():
     return render_template('dashboard_alumno.html', asesorias=asesorias)
 
 # Ruta para ver asesorías totales
-@app.route('/ver_asesorias_totales')
+@app.route('/ver_asesoria/<int:id>')
 @login_required
-def ver_asesorias_totales():
-    asesorias = db.session.query(Asesoria, User).join(User, Asesoria.maestro_id == User.id).all()
-    return render_template('ver_asesorias_totales.html', asesorias=asesorias)
+def ver_asesoria(id):
+    asesoria = Asesoria.query.get_or_404(id)
+    maestro = User.query.get(asesoria.maestro_id)
+    alumnos = asesoria.alumnos
+    return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
+
 
 # Ruta para crear una nueva asesoría
 @app.route('/nueva_asesoria', methods=['GET', 'POST'])
@@ -196,17 +199,20 @@ def registrar_asesoria(id):
         flash('Te has registrado en la asesoría con éxito.')
     else:
         flash('Ya estás registrado en esta asesoría.')
-    return redirect(url_for('dashboard_alumno'))
+    return redirect(url_for('ver_asesoria', id=asesoria.id))
+
 
 
 # Ruta para ver los detalles de una asesoría - Pacheco
-@app.route('/ver_asesoria/<int:id>')
+@app.route('/ver_detalle_asesoria/<int:id>')
 @login_required
-def ver_asesoria(id):
+def ver_detalle_asesoria(id):
     asesoria = Asesoria.query.get_or_404(id)
     maestro = User.query.get(asesoria.maestro_id)
     alumnos = asesoria.alumnos
     return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
+
+
 
 # Ruta para borrar una asesoría - Pacheco
 @app.route('/borrar_asesoria/<int:id>', methods=['POST'])

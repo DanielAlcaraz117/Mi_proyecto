@@ -10,11 +10,32 @@
     <p><strong>Máximo de Alumnos:</strong> {{ asesoria.max_alumnos }}</p>
     <p><strong>Temas:</strong> {{ asesoria.temas }}</p>
     <p><strong>Maestro:</strong> {{ maestro.nombre }}</p>
+    {% if maestro.foto %}
+        <p><strong>Foto del Maestro:</strong></p>
+        <img src="{{ url_for('static', filename='profile_pics/' ~ maestro.foto) }}" alt="Foto del Maestro" class="img-fluid" style="max-width: 200px;">
+    {% endif %}
     <p><strong>Alumnos Registrados:</strong></p>
     <ul>
         {% for alumno in alumnos %}
             <li>{{ alumno.nombre }}</li>
         {% endfor %}
     </ul>
+    <form action="{{ url_for('registrar_asesoria', id=asesoria.id) }}" method="POST">
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block flash_messages %}
+<div class="container mt-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}

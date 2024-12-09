@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <button class="btn btn-outline-light" onclick="window.history.back();">←</button>
+    <button class="btn btn-outline-light" onclick="window.location.href='{{ url_for('dashboard_alumno') }}';">←</button>
     <a class="navbar-brand" href="#">Datos de Pago</a>
 </nav>
 <div class="container mt-4">
@@ -41,6 +41,12 @@ function validarFormulario() {
     if (tarjeta.length !== 16) {
         alert('El número de tarjeta debe contener 16 dígitos.');
         return false;
+    }
+
+    const form = document.querySelector('form');
+    const formData = new FormData(form);
+    for (let [name, value] of formData) {
+        console.log(`${name} = ${value}`);
     }
     return true;
 }

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <button class="btn btn-outline-light" onclick="window.history.back();">←</button>
+    <button class="btn btn-outline-light" onclick="window.location.href='{{ url_for('dashboard_alumno') }}';">←</button>
     <a class="navbar-brand" href="#">Detalles de la Asesoría</a>
 </nav>
 <div class="container mt-4">
@@ -20,11 +20,17 @@
             <li>{{ alumno.nombre }}</li>
         {% endfor %}
     </ul>
-    <p><strong>Enlace de Google Meet:</strong> <a href="{{ asesoria.meet_link }}" target="_blank">{{ asesoria.meet_link }}</a></p>
-    <form action="{{ url_for('validar_registro', id=asesoria.id) }}" method="POST">
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
-    
+    {% set registro = asesoria.registros|selectattr('alumno_id', 'equalto', current_user.id)|first %}
+    {% if registro and registro.pagado %}
+        <div class="alert alert-success">
+            <strong>Enlace de Google Meet:</strong> <a href="{{ asesoria.meet_link }}" target="_blank">{{ asesoria.meet_link }}</a>
+        </div>
+    {% else %}
+        <form action="{{ url_for('procesar_pago', id=asesoria.id) }}" method="POST">
+            <button type="submit" class="btn btn-primary">Pagar y Obtener Enlace de Meet</button>
+        </form>
+    {% endif %}
+
     <!-- Mensajes flash específicos para el registro de asesoría -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -37,7 +43,7 @@
             </div>
         {% endif %}
     {% endwith %}
-    
+
     {% if registrado %}
         <div class="alert alert-danger mt-3" role="alert">
             Ya te has registrado a esta asesoría.

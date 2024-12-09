@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <button class="btn btn-outline-light" onclick="window.history.back();">←</button>
+    <a class="navbar-brand" href="#">Detalles de la Asesoría</a>
+</nav>
+<div class="container mt-4">
+    <h2 class="text-center">{{ asesoria.descripcion }}</h2>
+    <p><strong>Costo:</strong> {{ asesoria.costo }}</p>
+    <p><strong>Máximo de Alumnos:</strong> {{ asesoria.max_alumnos }}</p>
+    <p><strong>Temas:</strong> {{ asesoria.temas }}</p>
+    <p><strong>Maestro:</strong> {{ maestro.nombre }}</p>
+    {% if maestro.foto %}
+        <p><strong>Foto del Maestro:</strong></p>
+        <img src="{{ url_for('static', filename='profile_pics/' ~ maestro.foto) }}" alt="Foto del Maestro" class="img-fluid" style="max-width: 200px;">
+    {% endif %}
+    <p><strong>Alumnos Registrados:</strong></p>
+    <ul>
+        {% for alumno in alumnos %}
+            <li>{{ alumno.nombre }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Total Generado:</strong> {{ asesoria.total_pagado }}</p>
+    <p><strong>Enlace de Google Meet:</strong> <a href="{{ asesoria.meet_link }}" target="_blank">{{ asesoria.meet_link }}</a></p>
+    <a href="{{ url_for('editar_asesoria', id=asesoria.id) }}" class="btn btn-warning">Editar Asesoría</a>
+</div>
+{% endblock %}

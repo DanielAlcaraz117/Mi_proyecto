@@ -41,7 +41,7 @@ class Asesoria(db.Model):
     maestro_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     alumnos = db.relationship('User', secondary=asesoria_alumno, back_populates='asesorias')
     total_pagado = db.Column(db.Float, default=0.0)
-    meet_link = db.Column(db.String(200), nullable=True)  # Nueva columna
+    meet_link = db.Column(db.String(200), nullable=True)
 
 class RegistroAsesoria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -190,14 +190,13 @@ def validar_registro(id):
     if current_user in asesoria.alumnos:
         flash('Ya estás registrado en esta asesoría.', 'danger')
         return redirect(url_for('ver_asesoria', id=asesoria.id, registrado=True))
-    else:
-        return redirect(url_for('pago_asesoria', id=asesoria.id))
-
-@app.route('/pago_asesoria/<int:id>', methods=['GET', 'POST'])
-@login_required
-def pago_asesoria(id):
-    asesoria = Asesoria.query.get_or_404(id)
-    return render_template('pago_asesoria.html', asesoria=asesoria)
+    
+    # Agregar al alumno y actualizar el total pagado
+    asesoria.alumnos.append(current_user)
+    asesoria.total_pagado += asesoria.costo
+    db.session.commit()
+    flash('Te has registrado en la asesoría con éxito.', 'success')
+    return redirect(url_for('ver_asesoria', id=asesoria.id, pagado=True))
 
 @app.route('/procesar_pago/<int:id>', methods=['POST'])
 @login_required
@@ -273,8 +272,8 @@ def ver_detalle_asesoria_maestro(id):
     asesoria = Asesoria.query.get_or_404(id)
     maestro = User.query.get(asesoria.maestro_id)
     alumnos = asesoria.alumnos
-    return render_template('ver_detalle_asesoria_maestro.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
-
+    total_pagado = asesoria.total_pagado
+    return render_template('ver_detalle_asesoria_maestro.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, total_pagado=total_pagado)
 
 # Ruta para ver los detalles de una asesoría
 @app.route('/ver_detalle_asesoria/<int:id>')

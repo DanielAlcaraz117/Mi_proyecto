@@ -27,7 +27,7 @@
                     <li class="list-group-item">{{ alumno.nombre }}</li>
                 {% endfor %}
             </ul>
-            <p><strong>Total Generado:</strong> {{ asesoria.total_pagado }}</p>
+            <p><strong>Total Generado:</strong> {{ total_pagado }}</p>
             <p><strong>Enlace de Google Meet:</strong> <a href="{{ asesoria.meet_link }}" target="_blank">{{ asesoria.meet_link }}</a></p>
             <a href="{{ url_for('editar_asesoria', id=asesoria.id) }}" class="btn btn-warning btn-block mt-4">Editar Asesoría</a>
         </div>

@@ -17,26 +17,21 @@
         <hr class="bg-light">
         <div class="text-center">Otras opciones de inicio de sesión</div>
         <div class="d-flex justify-content-around mt-2 p-2 bg-white" style="border-radius: 10px;">
-            <button class="btn btn-outline-dark">X</button>
-            <button class="btn btn-outline-danger">Google</button>
-            <button class="btn btn-outline-primary">Facebook</button>
+            <button class="btn btn-outline-dark" onclick="mostrarMensaje()">X</button>
+            <button class="btn btn-outline-danger" onclick="mostrarMensaje()">Google</button>
+            <button class="btn btn-outline-primary" onclick="mostrarMensaje()">Facebook</button>
         </div>
         <hr class="bg-light">
         <div class="text-center">
             <a href="{{ url_for('crear_usuario') }}" class="text-white">¿No tienes una cuenta? Regístrate</a>
         </div>
     </div>
-    <!-- Bloque de mensajes flash de error -->
 </div>
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <div class="container mt-2 w-100">
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
+{% block scripts %}
+<script>
+function mostrarMensaje() {
+    alert('Una disculpa, pero por el momento estamos teniendo problemas técnicos. Por favor, intente más tarde.');
+}
+</script>
+{% endblock %}
 {% endblock %}

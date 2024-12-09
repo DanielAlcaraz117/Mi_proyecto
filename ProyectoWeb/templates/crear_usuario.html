@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<button class="btn btn-outline-primary back-button" onclick="window.history.back();">←</button>
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+<button class="btn btn-custom" onclick="window.location.href='{{ url_for('login') }}';">←</button>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
     <div class="text-center bg-light p-5 rounded-lg shadow-lg" style="max-width: 500px;">
         <h2 class="mb-4">¿Registrarse como?</h2>
         <div class="mt-4">

@@ -2,8 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_migrate import Migrate
+from sqlalchemy.exc import IntegrityError
 import os
-#Para crear el archivo donde se esta guardando toda la informacion en general
+
+# Para crear el archivo donde se está guardando toda la información en general
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///asesorias.db'
 app.config['SECRET_KEY'] = 'tu_clave_secreta'
@@ -30,7 +32,6 @@ class User(UserMixin, db.Model):
     nivel = db.Column(db.String(50), nullable=True)  # Nueva columna
     asesorias = db.relationship('Asesoria', secondary=asesoria_alumno, back_populates='alumnos')
 
-
 class Asesoria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descripcion = db.Column(db.String(200), nullable=False)
@@ -51,12 +52,11 @@ class RegistroAsesoria(db.Model):
     asesoria = db.relationship('Asesoria', backref=db.backref('registros', lazy=True))
     alumno = db.relationship('User', backref=db.backref('registro_asesorias', lazy=True))
 
-
-
 # Rutas
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 @app.route('/')
 def home():
     return redirect(url_for('login'))
@@ -296,9 +296,16 @@ def ver_asesorias_totales():
 @login_required
 def borrar_asesoria(id):
     asesoria = Asesoria.query.get_or_404(id)
-    db.session.delete(asesoria)
-    db.session.commit()
-    flash('Asesoría eliminada con éxito.')
+    try:
+        # Eliminar registros relacionados de RegistroAsesoria
+        RegistroAsesoria.query.filter_by(asesoria_id=asesoria.id).delete()
+        # Eliminar la asesoría
+        db.session.delete(asesoria)
+        db.session.commit()
+        flash('Asesoría eliminada con éxito', 'success')
+    except IntegrityError:
+        db.session.rollback()
+        flash('Error al eliminar la asesoría. Intenta de nuevo.', 'danger')
     return redirect(url_for('dashboard_maestro'))
 
 # Ruta para editar una asesoría

@@ -198,6 +198,45 @@ def validar_registro(id):
     flash('Te has registrado en la asesoría con éxito.', 'success')
     return redirect(url_for('ver_asesoria', id=asesoria.id, pagado=True))
 
+@app.route('/pago_asesoria/<int:id>', methods=['GET', 'POST'])
+@login_required
+def pago_asesoria(id):
+    asesoria = Asesoria.query.get_or_404(id)
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        tarjeta = request.form['tarjeta']
+        vencimiento = request.form['vencimiento']
+        cvv = request.form['cvv']
+        celular = request.form['celular']
+
+        if not all([nombre, tarjeta, vencimiento, cvv, celular]):
+            flash('Todos los campos son obligatorios.', 'danger')
+            return redirect(url_for('pago_asesoria', id=asesoria.id))
+
+        # Registrar el pago
+        registro = RegistroAsesoria.query.filter_by(asesoria_id=asesoria.id, alumno_id=current_user.id).first()
+        if not registro:
+            registro = RegistroAsesoria(asesoria_id=asesoria.id, alumno_id=current_user.id, pagado=False)
+            db.session.add(registro)
+
+        registro.pagado = True
+        asesoria.total_pagado += asesoria.costo
+
+        db.session.commit()
+        flash('Pago realizado y te has registrado en la asesoría con éxito.', 'success')
+
+        # Enviar mensaje de WhatsApp
+        mensaje = f'Pago realizado en GAD de {asesoria.costo} y los últimos cuatro dígitos de la tarjeta son {tarjeta[-4:]}'
+        client.messages.create(
+            body=mensaje,
+            from_=f'whatsapp:{TWILIO_WHATSAPP_NUMBER}',
+            to=f'whatsapp:{celular}'
+        )
+
+        return redirect(url_for('ver_asesoria', id=asesoria.id))
+
+    return render_template('pago_asesoria.html', asesoria=asesoria)
+
 @app.route('/procesar_pago/<int:id>', methods=['POST'])
 @login_required
 def procesar_pago(id):

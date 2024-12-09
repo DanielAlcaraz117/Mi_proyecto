@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <button class="btn btn-outline-light" onclick="window.history.back();">←</button>
+    <a class="navbar-brand" href="#">Datos de Pago</a>
+</nav>
+<div class="container mt-4">
+    <div class="alert alert-warning" role="alert">
+        Los pagos se realizaran al instante y no se guardara ningun dato bancario, por lo mismo cada vez que quieras registrarte a una nueva asesoría deberás agregar tus datos nuevamente.
+    </div>
+    <h2 class="text-center">Pago para {{ asesoria.descripcion }}</h2>
+    <form method="POST" action="{{ url_for('procesar_pago', id=asesoria.id) }}" onsubmit="return validarFormulario()">
+        <div class="form-group">
+            <label for="nombre">Nombre del Propietario de la Tarjeta</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="tarjeta">Número de Tarjeta (Solo Débito)</label>
+            <input type="text" class="form-control" id="tarjeta" name="tarjeta" maxlength="16" pattern="\d{16}" placeholder="16 dígitos" required>
+        </div>
+        <div class="form-group">
+            <label for="vencimiento">Fecha de Vencimiento (MM/AA)</label>
+            <input type="text" class="form-control" id="vencimiento" name="vencimiento" placeholder="MM/AA" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" required>
+        </div>
+        <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input type="text" class="form-control" id="cvv" name="cvv" maxlength="3" pattern="\d{3}" placeholder="3 dígitos" required>
+        </div>
+        <div class="form-group">
+            <label for="celular">Número de Celular</label>
+            <input type="text" class="form-control" id="celular" name="celular" pattern="\d{10}" placeholder="10 dígitos" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Pagar</button>
+    </form>
+</div>
+
+{% block scripts %}
+<script>
+function validarFormulario() {
+    const tarjeta = document.getElementById('tarjeta').value;
+    if (tarjeta.length !== 16) {
+        alert('El número de tarjeta debe contener 16 dígitos.');
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}
+{% endblock %}

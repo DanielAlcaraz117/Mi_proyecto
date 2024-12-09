@@ -26,5 +26,17 @@
             <a href="{{ url_for('crear_usuario') }}" class="text-white">¿No tienes una cuenta? Regístrate</a>
         </div>
     </div>
+    <!-- Bloque de mensajes flash de error -->
 </div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="container mt-2 w-100">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
 {% endblock %}

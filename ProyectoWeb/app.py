@@ -39,6 +39,9 @@ class Asesoria(db.Model):
     temas = db.Column(db.String(200), nullable=False)
     maestro_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     alumnos = db.relationship('User', secondary=asesoria_alumno, back_populates='asesorias')
+    total_pagado = db.Column(db.Float, default=0.0)
+    meet_link = db.Column(db.String(200), nullable=True)  # Nueva columna
+
 
 # Rutas
 @login_manager.user_loader
@@ -54,17 +57,21 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        user = User.query.filter_by(email=email, password=password).first()
-        if user:
-            login_user(user)
-            # Asegúrate de redirigir al dashboard correcto basado en el rol del usuario
-            if user.rol == 'alumno':
-                return redirect(url_for('dashboard_alumno'))
-            elif user.rol == 'maestro':
-                return redirect(url_for('dashboard_maestro'))
-        else:
-            flash('Credenciales incorrectas.')
+        
+        user = User.query.filter_by(email=email).first()
+        
+        if user is None or user.password != password:
+            flash('Credenciales incorrectas.', 'danger')
+            return redirect(url_for('login'))
+        
+        login_user(user)
+        if user.rol == 'alumno':
+            return redirect(url_for('dashboard_alumno'))
+        elif user.rol == 'maestro':
+            return redirect(url_for('dashboard_maestro'))
+    
     return render_template('login.html')
+
 
 @app.route('/logout')
 @login_required
@@ -167,7 +174,46 @@ def ver_asesoria(id):
     asesoria = Asesoria.query.get_or_404(id)
     maestro = User.query.get(asesoria.maestro_id)
     alumnos = asesoria.alumnos
-    return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
+    registrado = request.args.get('registrado', default=False, type=bool)
+    return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, registrado=registrado)
+
+
+#Ruta para pago de asesoría
+@app.route('/validar_registro/<int:id>', methods=['POST'])
+@login_required
+def validar_registro(id):
+    asesoria = Asesoria.query.get_or_404(id)
+    if current_user in asesoria.alumnos:
+        flash('Ya estás registrado en esta asesoría.', 'danger')
+        return redirect(url_for('ver_asesoria', id=asesoria.id, registrado=True))
+    else:
+        return redirect(url_for('pago_asesoria', id=asesoria.id))
+
+@app.route('/pago_asesoria/<int:id>', methods=['GET', 'POST'])
+@login_required
+def pago_asesoria(id):
+    asesoria = Asesoria.query.get_or_404(id)
+    return render_template('pago_asesoria.html', asesoria=asesoria)
+
+@app.route('/procesar_pago/<int:id>', methods=['POST'])
+@login_required
+def procesar_pago(id):
+    asesoria = Asesoria.query.get_or_404(id)
+    nombre = request.form['nombre']
+    tarjeta = request.form['tarjeta']
+    vencimiento = request.form['vencimiento']
+    cvv = request.form['cvv']
+    celular = request.form['celular']
+    
+    if asesoria.total_pagado is None:
+        asesoria.total_pagado = 0.0
+
+    asesoria.alumnos.append(current_user)
+    asesoria.total_pagado += asesoria.costo
+    db.session.commit()
+    flash('Pago realizado y te has registrado en la asesoría con éxito.', 'success')
+    
+    return redirect(url_for('ver_asesoria', id=asesoria.id, pagado=True))
 
 
 # Ruta para crear una nueva asesoría
@@ -179,15 +225,17 @@ def nueva_asesoria():
         costo = request.form['costo']
         max_alumnos = request.form['max_alumnos']
         temas = request.form['temas']
+        meet_link = request.form['meet_link']
         nueva_asesoria = Asesoria(
             descripcion=descripcion, costo=costo, max_alumnos=max_alumnos,
-            temas=temas, maestro_id=current_user.id
+            temas=temas, maestro_id=current_user.id, meet_link=meet_link
         )
         db.session.add(nueva_asesoria)
         db.session.commit()
         flash('Asesoría creada con éxito.')
         return redirect(url_for('dashboard_maestro'))
     return render_template('nueva_asesoria.html')
+
 
 @app.route('/registrar_asesoria/<int:id>', methods=['POST'])
 @login_required
@@ -201,6 +249,13 @@ def registrar_asesoria(id):
         flash('Ya estás registrado en esta asesoría.')
     return redirect(url_for('ver_asesoria', id=asesoria.id))
 
+@app.route('/ver_detalle_asesoria_maestro/<int:id>')
+@login_required
+def ver_detalle_asesoria_maestro(id):
+    asesoria = Asesoria.query.get_or_404(id)
+    maestro = User.query.get(asesoria.maestro_id)
+    alumnos = asesoria.alumnos
+    return render_template('ver_detalle_asesoria_maestro.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
 
 
 # Ruta para ver los detalles de una asesoría - Pacheco
@@ -212,7 +267,11 @@ def ver_detalle_asesoria(id):
     alumnos = asesoria.alumnos
     return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
 
-
+@app.route('/ver_asesorias_totales')
+@login_required
+def ver_asesorias_totales():
+    asesorias = db.session.query(Asesoria, User).join(User, Asesoria.maestro_id == User.id).all()
+    return render_template('ver_asesorias_totales.html', asesorias=asesorias)
 
 # Ruta para borrar una asesoría - Pacheco
 @app.route('/borrar_asesoria/<int:id>', methods=['POST'])
@@ -238,10 +297,13 @@ def editar_asesoria(id):
         asesoria.costo = request.form['costo']
         asesoria.max_alumnos = request.form['max_alumnos']
         asesoria.temas = request.form['temas']
+        asesoria.meet_link = request.form['meet_link']
         db.session.commit()
         flash('Asesoría actualizada con éxito.')
-        return redirect(url_for('ver_asesoria', id=asesoria.id))
+        return redirect(url_for('ver_detalle_asesoria_maestro', id=asesoria.id))
     return render_template('editar_asesoria.html', asesoria=asesoria)
+
+
 
 if __name__ == '__main__':
     with app.app_context():

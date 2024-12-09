@@ -20,6 +20,10 @@
             <label for="temas">Temas</label>
             <input type="text" class="form-control" id="temas" name="temas" value="{{ asesoria.temas }}" required>
         </div>
+        <div class="form-group">
+            <label for="meet_link">Enlace de Google Meet</label>
+            <input type="url" class="form-control" id="meet_link" name="meet_link" value="{{ asesoria.meet_link }}" required>
+        </div>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
 </div>

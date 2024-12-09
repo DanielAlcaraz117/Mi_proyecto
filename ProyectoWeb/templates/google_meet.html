@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Llamada</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            margin-bottom: 0;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+        h2 {
+            color: #007bff;
+            margin-top: 20px;
+        }
+        .btn-outline-light {
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+        .btn-outline-light:hover {
+            background-color: #ffffff;
+            color: #007bff;
+        }
+        iframe {
+            width: 100%;
+            height: calc(100vh - 80px); /* Ajusta la altura para ocupar toda la pantalla */
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Video Llamada</a>
+        <div class="ml-auto">
+            <a class="btn btn-outline-light" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="text-center">Bienvenido a la Video Llamada</h2>
+        <iframe src="{{ meet_url }}" allow="camera; microphone; fullscreen"></iframe>
+    </div>
+</body>
+</html>

@@ -1,3 +1,4 @@
+<!-- dashboard_alumno.html -->
 {% extends 'base.html' %}
 <!-- Extiende la plantilla base 'base.html' para reutilizar su estructura principal -->
 
@@ -5,6 +6,7 @@
 <!-- Inicia el bloque de contenido personalizado -->
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
     <!-- Barra de navegación usando Bootstrap con estilo oscuro y color de fondo azul (bg-primary) -->
 
     <a class="navbar-brand" href="#">Asesorías Alumnos</a>
@@ -29,11 +31,8 @@
     <!-- Contenedor principal con margen superior (mt-4) -->
 
     <h2 class="text-center">Asesorías Disponibles</h2>
-    <!-- Título centrado para la sección de asesorías -->
 
-    <!-- Botón de retroceso -->
     <button class="btn btn-secondary mb-3" onclick="window.history.back()"><i class="fas fa-arrow-left"></i> Volver</button>
-    <!-- Botón para regresar a la página anterior usando JavaScript -->
 
     <table class="table table-bordered mt-3">
         <!-- Tabla con bordes para listar las asesorías, con margen superior (mt-3) -->
@@ -105,6 +104,11 @@
             <!-- Fin del bucle for que recorre cada asesoría y maestro -->
         </tbody>
     </table>
+
+    <!-- Botón para unirse a la video llamada -->
+    <div class="text-center mt-4">
+        <a class="btn btn-success" href="{{ url_for('unirse_video_llamada') }}">Entrar a Video Llamada</a>
+    </div>
 </div>
 
 {% endblock %}

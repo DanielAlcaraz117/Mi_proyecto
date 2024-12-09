@@ -1,14 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_migrate import Migrate
 import os
-#Para crear el archivo donde se esta guardando toda la informacion en general
+import random
+import string
+
+# Para crear el archivo donde se está guardando toda la información en general
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///asesorias.db'
 app.config['SECRET_KEY'] = 'tu_clave_secreta'
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)  # Añadir esta línea
+migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -29,7 +32,6 @@ class User(UserMixin, db.Model):
     edad = db.Column(db.Integer, nullable=True)  # Nueva columna
     nivel = db.Column(db.String(50), nullable=True)  # Nueva columna
     asesorias = db.relationship('Asesoria', secondary=asesoria_alumno, back_populates='alumnos')
-
 
 class Asesoria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -96,13 +98,13 @@ def registro_maestro():
         if password != confirm_password:
             flash('Las contraseñas no coinciden.')
             return redirect(url_for('registro_maestro'))
-        
+
         # Verificar si el correo ya existe
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('El correo ya está registrado. Usa uno diferente.')
             return redirect(url_for('registro_maestro'))
-        
+
         # Guardar la foto en el directorio estático
         if foto:
             foto_filename = foto.filename
@@ -110,7 +112,7 @@ def registro_maestro():
             foto.save(foto_path)
         else:
             foto_filename = None
-        
+
         nuevo_maestro = User(
             nombre=nombre, email=email, password=password, rol='maestro',
             especializacion=especializacion, foto=foto_filename, edad=edad, nivel=nivel
@@ -144,7 +146,6 @@ def registro_alumno():
         flash('Alumno registrado con éxito.')
         return redirect(url_for('login'))
     return render_template('registro_alumno.html')
-
 
 # Ruta para el dashboard del maestro
 @app.route('/dashboard_maestro')
@@ -198,8 +199,7 @@ def registrar_asesoria(id):
         flash('Ya estás registrado en esta asesoría.')
     return redirect(url_for('dashboard_alumno'))
 
-
-# Ruta para ver los detalles de una asesoría - Pacheco
+# Ruta para ver los detalles de una asesoría
 @app.route('/ver_asesoria/<int:id>')
 @login_required
 def ver_asesoria(id):
@@ -208,7 +208,7 @@ def ver_asesoria(id):
     alumnos = asesoria.alumnos
     return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
 
-# Ruta para borrar una asesoría - Pacheco
+# Ruta para borrar una asesoría
 @app.route('/borrar_asesoria/<int:id>', methods=['POST'])
 @login_required
 def borrar_asesoria(id):
@@ -218,7 +218,7 @@ def borrar_asesoria(id):
     flash('Asesoría eliminada con éxito.')
     return redirect(url_for('dashboard_maestro'))
 
-# Ruta para editar una asesoría - Gabo
+# Ruta para editar una asesoría
 @app.route('/editar_asesoria/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_asesoria(id):
@@ -237,8 +237,36 @@ def editar_asesoria(id):
         return redirect(url_for('ver_asesoria', id=asesoria.id))
     return render_template('editar_asesoria.html', asesoria=asesoria)
 
+# Añadir la ruta para la video llamada
+def generate_meet_link():
+    """Genera un enlace único para Google Meet"""
+    random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    return f"https://meet.google.com/{random_string}"
+
+@app.route('/iniciar_video_llamada')
+@login_required
+def iniciar_video_llamada():
+    if current_user.rol != 'maestro':
+        flash('Solo los maestros pueden iniciar una video llamada.')
+        return redirect(url_for('dashboard_alumno' if current_user.rol == 'alumno' else 'dashboard_maestro'))
+
+    meet_link = generate_meet_link()
+    session['current_meet_link'] = meet_link
+    return render_template('google_meet.html', meet_url=meet_link)
+
+@app.route('/unirse_video_llamada')
+@login_required
+def unirse_video_llamada():
+    meet_link = session.get('current_meet_link', None)
+    if not meet_link:
+        flash('No hay ninguna video llamada activa en este momento.')
+        return redirect(url_for('dashboard_alumno' if current_user.rol == 'alumno' else 'dashboard_maestro'))
+
+    return render_template('google_meet.html', meet_url=meet_link)
+
+# Aquí asegúrate de que el resto de tu código también esté bien definido
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True, port=5001)
-    

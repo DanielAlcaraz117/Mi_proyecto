@@ -1,9 +1,11 @@
+/* Estilos generales del cuerpo */
 body {
     font-family: Arial, sans-serif;
     /* Fondo predeterminado */
     background-color: #f2f2f2;
 }
 
+/* Estilo para el contenedor principal */
 .container {
     /* Alineación del contenedor principal */
     display: flex;
@@ -16,8 +18,8 @@ body {
     background-position: center; /* Posición de la imagen */
 }
 
+/* Estilos para el contenedor del formulario */
 .border {
-    /* Estilo del contenedor del formulario */
     background-color: #007BFF; /* Azul de fondo */
     padding: 20px;
     border-radius: 10px;
@@ -26,18 +28,21 @@ body {
     backdrop-filter: blur(10px); /* Efecto de desenfoque de fondo */
 }
 
+/* Estilos para el título */
 h2 {
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: bold;
 }
 
+/* Estilos para las etiquetas */
 label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
+/* Estilos para los campos de entrada */
 input {
     width: 100%;
     padding: 10px;
@@ -46,6 +51,7 @@ input {
     border-radius: 4px;
 }
 
+/* Estilos para los botones */
 button {
     background-color: white; /* Botones blancos */
     color: #007BFF; /* Texto azul */
@@ -59,30 +65,23 @@ button:hover {
     background-color: lightgray; /* Fondo gris claro al pasar el ratón */
 }
 
+/* Estilos para texto centrado */
 .text-center {
     text-align: center;
     font-weight: bold;
 }
 
+/* Estilos para margen inferior */
 .mb-4 {
     margin-bottom: 1.5rem;
 }
 
+/* Estilos para margen superior */
 .mt-2 {
     margin-top: 10px;
 }
 
-.btn-outline-dark {
-    background-color: transparent;
-    color: black;
-    border: 1px solid black;
-}
-
-.btn-outline-dark:hover {
-    background-color: black;
-    color: white;
-}
-
+/* Estilos para botones de Facebook */
 .btn-outline-primary {
     background-color: #3b5998; /* Azul de Facebook */
     color: white;
@@ -94,6 +93,7 @@ button:hover {
     color: #3b5998;
 }
 
+/* Estilos para botones de Google */
 .btn-outline-danger {
     background-color: #DB4437; /* Rojo de Google */
     color: white;
@@ -101,29 +101,70 @@ button:hover {
 }
 
 .btn-outline-danger:hover {
-    background-color: white;
-    color: #DB4437;
+    background-color: white; /* Fondo blanco al pasar el ratón */
+    color: #DB4437; /* Texto rojo al pasar el ratón */
 }
 
+/* Flexbox */
 .d-flex {
-    display: flex;
+    display: flex; /* Muestra en flexbox */
 }
 
+/* Justificación alrededor */
 .justify-content-around {
-    justify-content: space-around;
+    justify-content: space-around; /* Espacio entre los elementos */
 }
 
+/* Estilos para padding */
 .p-2 {
-    padding: 10px;
+    padding: 10px; /* Padding de 10px */
 }
 
+/* Fondo blanco con bordes redondeados */
 .bg-white {
-    background-color: white;
-    border-radius: 10px;
+    background-color: white; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
 }
 
+/* Línea divisoria clara */
 hr.bg-light {
-    background-color: white;
-    border: none;
-    height: 1px;
+    background-color: white; /* Color de fondo */
+    border: none; /* Sin borde */
+    height: 1px; /* Altura de 1px */
+}
+
+/* Botón de regreso */
+.btn-outline-primary.back-button {
+    border: 2px solid #007bff; /* Borde azul */
+    color: #007bff; /* Color del texto azul */
+    background-color: transparent; /* Fondo transparente */
+    border-radius: 50%; /* Bordes redondeados */
+    width: 50px; /* Ancho del botón */
+    height: 50px; /* Altura del botón */
+    display: flex; /* Flexbox */
+    align-items: center; /* Alineación vertical */
+    justify-content: center; /* Alineación horizontal */
+    font-size: 24px; /* Tamaño de la fuente */
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease; /* Transiciones suaves */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Estilo del botón de regreso al pasar el ratón */
+.btn-outline-primary.back-button:hover {
+    background-color: #007bff; /* Fondo azul al pasar el ratón */
+    color: #fff; /* Texto blanco al pasar el ratón */
+    transform: scale(1.1); /* Aumenta el tamaño al pasar el ratón */
+}
+
+/* Estilo del botón de regreso al hacer clic */
+.btn-outline-primary.back-button:active {
+    transform: scale(0.9); /* Reduce el tamaño al hacer clic */
+}
+
+/* Estilos para los videos */
+video {
+    border: 2px solid #007bff; /* Bordes azules */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra */
+    margin-bottom: 20px; /* Espacio inferior */
 }

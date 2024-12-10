@@ -29,7 +29,11 @@
                     <li class="list-group-item">No hay alumnos registrados</li>
                 {% endfor %}
             </ul>
+<<<<<<< HEAD
             <p><strong>Total Generado:</strong> ${{ "{:.2f}".format(total_pagado) }}</p>
+=======
+            <p><strong>Total Generado:</strong> {{ asesoria.total_pagado }}</p>
+>>>>>>> parent of a216804 (soluciones)
             <p><strong>Enlace de Google Meet:</strong> <a href="{{ asesoria.meet_link }}" target="_blank">{{ asesoria.meet_link }}</a></p>
             <a href="{{ url_for('editar_asesoria', id=asesoria.id) }}" class="btn btn-warning btn-block mt-4">Editar Asesoría</a>
         </div>

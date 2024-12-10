@@ -41,7 +41,7 @@ class Asesoria(db.Model):
     maestro_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     alumnos = db.relationship('User', secondary=asesoria_alumno, back_populates='asesorias')
     total_pagado = db.Column(db.Float, default=0.0)
-    meet_link = db.Column(db.String(200), nullable=True)  # Nueva columna
+    meet_link = db.Column(db.String(200), nullable=True)
 
 class RegistroAsesoria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -177,10 +177,14 @@ def dashboard_alumno():
 def ver_asesoria(id):
     asesoria = Asesoria.query.get_or_404(id)
     maestro = User.query.get(asesoria.maestro_id)
-    alumnos = asesoria.alumnos
+    alumnos = db.session.query(User).join(RegistroAsesoria).filter(RegistroAsesoria.asesoria_id == asesoria.id).all()
+    total_pagado = db.session.query(db.func.sum(RegistroAsesoria.pagado * Asesoria.costo)).filter(
+        RegistroAsesoria.asesoria_id == asesoria.id, RegistroAsesoria.pagado == True
+    ).scalar()
+    if total_pagado is None:
+        total_pagado = 0.0
     registrado = request.args.get('registrado', default=False, type=bool)
-    return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, registrado=registrado)
-
+    return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, total_pagado=total_pagado, registrado=registrado)
 
 #Ruta para pago de asesoría
 @app.route('/validar_registro/<int:id>', methods=['POST'])
@@ -190,13 +194,51 @@ def validar_registro(id):
     if current_user in asesoria.alumnos:
         flash('Ya estás registrado en esta asesoría.', 'danger')
         return redirect(url_for('ver_asesoria', id=asesoria.id, registrado=True))
-    else:
-        return redirect(url_for('pago_asesoria', id=asesoria.id))
+    
+    # Agregar al alumno y actualizar el total pagado
+    asesoria.alumnos.append(current_user)
+    asesoria.total_pagado += asesoria.costo
+    db.session.commit()
+    flash('Te has registrado en la asesoría con éxito.', 'success')
+    return redirect(url_for('ver_asesoria', id=asesoria.id, pagado=True))
 
 @app.route('/pago_asesoria/<int:id>', methods=['GET', 'POST'])
 @login_required
 def pago_asesoria(id):
     asesoria = Asesoria.query.get_or_404(id)
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        tarjeta = request.form['tarjeta']
+        vencimiento = request.form['vencimiento']
+        cvv = request.form['cvv']
+        celular = request.form['celular']
+
+        if not all([nombre, tarjeta, vencimiento, cvv, celular]):
+            flash('Todos los campos son obligatorios.', 'danger')
+            return redirect(url_for('pago_asesoria', id=asesoria.id))
+
+        # Registrar el pago
+        registro = RegistroAsesoria.query.filter_by(asesoria_id=asesoria.id, alumno_id=current_user.id).first()
+        if not registro:
+            registro = RegistroAsesoria(asesoria_id=asesoria.id, alumno_id=current_user.id, pagado=False)
+            db.session.add(registro)
+
+        registro.pagado = True
+        asesoria.total_pagado += asesoria.costo
+
+        db.session.commit()
+        flash('Pago realizado y te has registrado en la asesoría con éxito.', 'success')
+
+        # Enviar mensaje de WhatsApp
+        mensaje = f'Pago realizado en GAD de {asesoria.costo} y los últimos cuatro dígitos de la tarjeta son {tarjeta[-4:]}'
+        client.messages.create(
+            body=mensaje,
+            from_=f'whatsapp:{TWILIO_WHATSAPP_NUMBER}',
+            to=f'whatsapp:{celular}'
+        )
+
+        return redirect(url_for('ver_asesoria', id=asesoria.id))
+
     return render_template('pago_asesoria.html', asesoria=asesoria)
 
 @app.route('/procesar_pago/<int:id>', methods=['POST'])
@@ -271,10 +313,14 @@ def registrar_asesoria(id):
 @login_required
 def ver_detalle_asesoria_maestro(id):
     asesoria = Asesoria.query.get_or_404(id)
-    maestro = User.query.get(asesoria.maestro_id)
-    alumnos = asesoria.alumnos
-    return render_template('ver_detalle_asesoria_maestro.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos)
-
+    maestro = User.query.get_or_404(asesoria.maestro_id)
+    alumnos = db.session.query(User).join(RegistroAsesoria).filter(RegistroAsesoria.asesoria_id == asesoria.id).all()
+    total_pagado = db.session.query(db.func.sum(RegistroAsesoria.pagado * Asesoria.costo)).filter(
+        RegistroAsesoria.asesoria_id == asesoria.id, RegistroAsesoria.pagado == True
+    ).scalar()
+    if total_pagado is None:
+        total_pagado = 0.0
+    return render_template('ver_detalle_asesoria_maestro.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, total_pagado=total_pagado)
 
 # Ruta para ver los detalles de una asesoría
 @app.route('/ver_detalle_asesoria/<int:id>')

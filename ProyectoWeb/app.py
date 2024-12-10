@@ -185,9 +185,8 @@ def dashboard_alumno():
 
 
 # Configurar logging
-logging.basicConfig(level=logging.DEBUG)
 ###############################
-
+logging.basicConfig(level=logging.DEBUG)
 @app.route('/ver_asesoria/<int:id>')
 @login_required
 def ver_asesoria(id):

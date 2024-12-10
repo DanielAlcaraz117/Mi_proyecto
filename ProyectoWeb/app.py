@@ -3,7 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_migrate import Migrate
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import case
 import os
+import logging
+
 
 # Para crear el archivo donde se está guardando toda la información en general
 app = Flask(__name__)
@@ -153,7 +156,6 @@ def registro_alumno():
         nuevo_alumno = User(nombre=nombre, email=email, password=password, rol='alumno')
         db.session.add(nuevo_alumno)
         db.session.commit()
-        flash('Alumno registrado con éxito.')
         return redirect(url_for('login'))
     return render_template('registro_alumno.html')
 
@@ -161,7 +163,15 @@ def registro_alumno():
 @app.route('/dashboard_maestro')
 @login_required
 def dashboard_maestro():
-    asesorias = db.session.query(Asesoria).filter_by(maestro_id=current_user.id).all()
+    asesorias = Asesoria.query.filter_by(maestro_id=current_user.id).all()
+    
+    for asesoria in asesorias:
+        # Calcular la cantidad de alumnos registrados y el total pagado
+        asesoria.registrados = db.session.query(RegistroAsesoria).filter_by(asesoria_id=asesoria.id, pagado=True).count()
+        asesoria.total_pagado = db.session.query(db.func.sum(RegistroAsesoria.pagado * asesoria.costo)).filter(
+            RegistroAsesoria.asesoria_id == asesoria.id, RegistroAsesoria.pagado == True
+        ).scalar() or 0.0
+    
     return render_template('dashboard_maestro.html', asesorias=asesorias)
 
 # Ruta para el dashboard del alumno
@@ -172,20 +182,56 @@ def dashboard_alumno():
     return render_template('dashboard_alumno.html', asesorias=asesorias)
 
 # Ruta para ver asesorías totales
+
+
+# Configurar logging
+logging.basicConfig(level=logging.DEBUG)
+###############################
+
 @app.route('/ver_asesoria/<int:id>')
 @login_required
 def ver_asesoria(id):
     asesoria = Asesoria.query.get_or_404(id)
     maestro = User.query.get(asesoria.maestro_id)
     alumnos = db.session.query(User).join(RegistroAsesoria).filter(RegistroAsesoria.asesoria_id == asesoria.id).all()
-    total_pagado = db.session.query(db.func.sum(RegistroAsesoria.pagado * Asesoria.costo)).filter(
-        RegistroAsesoria.asesoria_id == asesoria.id, RegistroAsesoria.pagado == True
+
+    # Utilizamos case correctamente para sumar el costo solo cuando pagado es verdadero
+    total_pagado = db.session.query(
+        db.func.sum(
+            case(
+                (RegistroAsesoria.pagado == True, asesoria.costo)
+            )
+        )
+    ).filter(
+        RegistroAsesoria.asesoria_id == asesoria.id
     ).scalar()
+    
     if total_pagado is None:
         total_pagado = 0.0
+    
+    # Logs de depuración adicionales
+    logging.debug(f'ID de Asesoría: {id}')
+    logging.debug(f'Total pagado calculado: {total_pagado}')
+    logging.debug(f'Alumnos registrados: {len(alumnos)}')
+    for alumno in alumnos:
+        logging.debug(f'Alumno: {alumno.nombre}, ID: {alumno.id}')
+    
     registrado = request.args.get('registrado', default=False, type=bool)
-    return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, total_pagado=total_pagado, registrado=registrado)
 
+    # Verificar los datos pasados al template
+    context = {
+        'asesoria': asesoria,
+        'maestro': maestro,
+        'alumnos': alumnos,
+        'total_pagado': total_pagado,
+        'registrado': registrado
+    }
+    logging.debug(f'Contexto pasado al template: {context}')
+    
+    return render_template('ver_asesoria.html', **context)
+
+
+###############################
 #Ruta para pago de asesoría
 @app.route('/validar_registro/<int:id>', methods=['POST'])
 @login_required
@@ -292,7 +338,6 @@ def nueva_asesoria():
         )
         db.session.add(nueva_asesoria)
         db.session.commit()
-        flash('Asesoría creada con éxito.')
         return redirect(url_for('dashboard_maestro'))
     return render_template('nueva_asesoria.html')
 
@@ -309,18 +354,48 @@ def registrar_asesoria(id):
         flash('Ya estás registrado en esta asesoría.')
     return redirect(url_for('ver_asesoria', id=asesoria.id))
 
+###################################
+
 @app.route('/ver_detalle_asesoria_maestro/<int:id>')
 @login_required
 def ver_detalle_asesoria_maestro(id):
     asesoria = Asesoria.query.get_or_404(id)
-    maestro = User.query.get_or_404(asesoria.maestro_id)
+    maestro = User.query.get(asesoria.maestro_id)
     alumnos = db.session.query(User).join(RegistroAsesoria).filter(RegistroAsesoria.asesoria_id == asesoria.id).all()
-    total_pagado = db.session.query(db.func.sum(RegistroAsesoria.pagado * Asesoria.costo)).filter(
-        RegistroAsesoria.asesoria_id == asesoria.id, RegistroAsesoria.pagado == True
+
+    # Utilizamos case correctamente para sumar el costo solo cuando pagado es verdadero
+    total_pagado = db.session.query(
+        db.func.sum(
+            case(
+                (RegistroAsesoria.pagado == True, asesoria.costo)
+            )
+        )
+    ).filter(
+        RegistroAsesoria.asesoria_id == asesoria.id
     ).scalar()
+    
     if total_pagado is None:
         total_pagado = 0.0
-    return render_template('ver_detalle_asesoria_maestro.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, total_pagado=total_pagado)
+    
+    # Logs de depuración adicionales
+    logging.debug(f'ID de Asesoría: {id}')
+    logging.debug(f'Total pagado calculado: {total_pagado}')
+    logging.debug(f'Alumnos registrados: {len(alumnos)}')
+    for alumno in alumnos:
+        logging.debug(f'Alumno: {alumno.nombre}, ID: {alumno.id}')
+    
+    context = {
+        'asesoria': asesoria,
+        'maestro': maestro,
+        'alumnos': alumnos,
+        'total_pagado': total_pagado
+    }
+    logging.debug(f'Contexto pasado al template: {context}')
+    
+    return render_template('ver_detalle_asesoria_maestro.html', **context)
+
+
+##################################
 
 # Ruta para ver los detalles de una asesoría
 @app.route('/ver_detalle_asesoria/<int:id>')

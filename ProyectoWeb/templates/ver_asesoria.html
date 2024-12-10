@@ -27,6 +27,7 @@
                     <li class="list-group-item">{{ alumno.nombre }}</li>
                 {% endfor %}
             </ul>
+            <!-- Imprimir valores adicionales para depuración -->
             <p><strong>Total Generado:</strong> ${{ "%.2f" % total_pagado }}</p>
             {% set registro = asesoria.registros|selectattr('alumno_id', 'equalto', current_user.id)|first %}
             {% if registro and registro.pagado %}

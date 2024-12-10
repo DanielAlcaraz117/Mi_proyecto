@@ -25,11 +25,9 @@
             <ul class="list-group mb-3">
                 {% for alumno in alumnos %}
                     <li class="list-group-item">{{ alumno.nombre }}</li>
-                {% else %}
-                    <li class="list-group-item">No hay alumnos registrados</li>
                 {% endfor %}
             </ul>
-            <p><strong>Total Generado:</strong> ${{ "{:.2f}".format(total_pagado) }}</p>
+            <p><strong>Total Generado:</strong> ${{ "%.2f" % total_pagado }}</p>
             <p><strong>Enlace de Google Meet:</strong> <a href="{{ asesoria.meet_link }}" target="_blank">{{ asesoria.meet_link }}</a></p>
             <a href="{{ url_for('editar_asesoria', id=asesoria.id) }}" class="btn btn-warning btn-block mt-4">Editar Asesoría</a>
         </div>

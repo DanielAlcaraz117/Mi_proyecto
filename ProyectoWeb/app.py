@@ -177,10 +177,14 @@ def dashboard_alumno():
 def ver_asesoria(id):
     asesoria = Asesoria.query.get_or_404(id)
     maestro = User.query.get(asesoria.maestro_id)
-    alumnos = asesoria.alumnos
+    alumnos = db.session.query(User).join(RegistroAsesoria).filter(RegistroAsesoria.asesoria_id == asesoria.id).all()
+    total_pagado = db.session.query(db.func.sum(RegistroAsesoria.pagado * Asesoria.costo)).filter(
+        RegistroAsesoria.asesoria_id == asesoria.id, RegistroAsesoria.pagado == True
+    ).scalar()
+    if total_pagado is None:
+        total_pagado = 0.0
     registrado = request.args.get('registrado', default=False, type=bool)
-    return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, registrado=registrado)
-
+    return render_template('ver_asesoria.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, total_pagado=total_pagado, registrado=registrado)
 
 #Ruta para pago de asesoría
 @app.route('/validar_registro/<int:id>', methods=['POST'])
@@ -309,9 +313,13 @@ def registrar_asesoria(id):
 @login_required
 def ver_detalle_asesoria_maestro(id):
     asesoria = Asesoria.query.get_or_404(id)
-    maestro = User.query.get(asesoria.maestro_id)
-    alumnos = asesoria.alumnos
-    total_pagado = asesoria.total_pagado
+    maestro = User.query.get_or_404(asesoria.maestro_id)
+    alumnos = db.session.query(User).join(RegistroAsesoria).filter(RegistroAsesoria.asesoria_id == asesoria.id).all()
+    total_pagado = db.session.query(db.func.sum(RegistroAsesoria.pagado * Asesoria.costo)).filter(
+        RegistroAsesoria.asesoria_id == asesoria.id, RegistroAsesoria.pagado == True
+    ).scalar()
+    if total_pagado is None:
+        total_pagado = 0.0
     return render_template('ver_detalle_asesoria_maestro.html', asesoria=asesoria, maestro=maestro, alumnos=alumnos, total_pagado=total_pagado)
 
 # Ruta para ver los detalles de una asesoría

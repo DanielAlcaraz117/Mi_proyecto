@@ -25,17 +25,18 @@
             <ul class="list-group mb-3">
                 {% for alumno in alumnos %}
                     <li class="list-group-item">{{ alumno.nombre }}</li>
-                {% else %}
-                    <li class="list-group-item">No hay alumnos registrados</li>
                 {% endfor %}
             </ul>
+            <p><strong>Total Generado:</strong> ${{ "%.2f" % total_pagado }}</p>
             {% set registro = asesoria.registros|selectattr('alumno_id', 'equalto', current_user.id)|first %}
             {% if registro and registro.pagado %}
                 <div class="alert alert-success">
                     <strong>Enlace de Google Meet:</strong> <a href="{{ asesoria.meet_link }}" target="_blank">{{ asesoria.meet_link }}</a>
                 </div>
             {% else %}
-                <a href="{{ url_for('pago_asesoria', id=asesoria.id) }}" class="btn btn-primary btn-block">Pagar y Obtener Enlace de Meet</a>
+                <form action="{{ url_for('procesar_pago', id=asesoria.id) }}" method="POST">
+                    <button type="submit" class="btn btn-primary btn-block">Pagar y Obtener Enlace de Meet</button>
+                </form>
             {% endif %}
             <!-- Mensajes flash específicos para el registro de asesoría -->
             {% with messages = get_flashed_messages(with_categories=true) %}

@@ -24,6 +24,7 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
     width: 400px;
     backdrop-filter: blur(10px); /* Desenfoque del fondo */
+    color: white; /* Texto blanco */
 }
 
 /* Estilos para el título */
@@ -31,6 +32,7 @@ h2 {
     margin-bottom: 20px;
     font-size: 28px; /* Fuente un poco más grande */
     font-weight: bold; /* Negrita */
+    color: black; /* Títulos en negro */
 }
 
 /* Estilos para las etiquetas */
@@ -38,19 +40,21 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold; /* Negrita */
+    color: white; /* Texto blanco dentro del formulario */
 }
 
 /* Estilos para los campos de entrada */
-input {
+input, select {
     width: 100%;
     padding: 12px; /* Un poco más de padding */
     margin-bottom: 15px; /* Espaciado entre los campos */
     border: 1px solid #ccc; /* Bordes grises claros */
     border-radius: 10px; /* Bordes redondeados */
+    color: black; /* Texto negro para buena legibilidad */
 }
 
 /* Estilos para el foco en los campos de entrada y botones */
-input:focus, button:focus {
+input:focus, button:focus, select:focus {
     outline: none;
     border-color: #0056b3; /* Color de borde al enfocar */
     box-shadow: 0 0 5px #0056b3; /* Sombra al enfocar */
@@ -70,6 +74,29 @@ button {
 /* Estilos para los botones al pasar el ratón */
 button:hover {
     background-color: lightgray; /* Color de fondo al pasar el ratón */
+}
+
+/* Estilos para botón personalizado */
+.btn-custom {
+    background-color: #0056b3; /* Color de fondo personalizado */
+    color: white; /* Color de texto blanco */
+    border: 2px solid #007BFF; /* Borde azul claro */
+    padding: 10px 20px; /* Padding personalizado */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Estilos para botón personalizado al pasar el ratón */
+.btn-custom:hover {
+    background-color: #003f7f; /* Color de fondo al pasar el ratón */
+    border-color: #0056b3; /* Cambio de borde al pasar el ratón */
+}
+
+/* Estilos para el botón de retroceso */
+.btn-back {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
 }
 
 /* Estilos para texto centrado */

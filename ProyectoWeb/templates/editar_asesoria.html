@@ -1,30 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
-<button class="btn btn-outline-primary" onclick="window.history.back();" style="position: absolute; top: 10px; left: 10px;">←</button>
-<div class="container mt-4">
-    <h2 class="text-center">Editar Asesoría</h2>
-    <form method="POST" action="{{ url_for('editar_asesoria', id=asesoria.id) }}">
-        <div class="form-group">
-            <label for="descripcion">Descripción</label>
-            <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ asesoria.descripcion }}" required>
-        </div>
-        <div class="form-group">
-            <label for="costo">Costo</label>
-            <input type="number" class="form-control" id="costo" name="costo" value="{{ asesoria.costo }}" required>
-        </div>
-        <div class="form-group">
-            <label for="max_alumnos">Máximo de Alumnos</label>
-            <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" value="{{ asesoria.max_alumnos }}" required>
-        </div>
-        <div class="form-group">
-            <label for="temas">Temas</label>
-            <input type="text" class="form-control" id="temas" name="temas" value="{{ asesoria.temas }}" required>
-        </div>
-        <div class="form-group">
-            <label for="meet_link">Enlace de Google Meet</label>
-            <input type="url" class="form-control" id="meet_link" name="meet_link" value="{{ asesoria.meet_link }}" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-    </form>
+<div class="container-fluid">
+    <!-- Contenedor vacío para crear un espacio en la parte superior -->
+    <div style="height: 50px;"></div>
+    <!-- Botón de retroceso fuera del recuadro azul -->
+    <button class="btn btn-custom btn-back" style="position: absolute; top: 10px; left: 10px;" onclick="window.history.back();">←</button>
+    <div class="login-box mt-5">
+        <h2 class="text-center mb-4">Editar Asesoría</h2>
+        <form method="POST" action="{{ url_for('editar_asesoria', id=asesoria.id) }}">
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion" value="{{ asesoria.descripcion }}" required>
+            </div>
+            <div class="form-group">
+                <label for="costo">Costo</label>
+                <input type="number" class="form-control" id="costo" name="costo" value="{{ asesoria.costo }}" required>
+            </div>
+            <div class="form-group">
+                <label for="max_alumnos">Máximo de Alumnos</label>
+                <input type="number" class="form-control" id="max_alumnos" name="max_alumnos" value="{{ asesoria.max_alumnos }}" required>
+            </div>
+            <div class="form-group">
+                <label for="temas">Temas</label>
+                <input type="text" class="form-control" id="temas" name="temas" value="{{ asesoria.temas }}" required>
+            </div>
+            <div class="form-group">
+                <label for="meet_link">Enlace de Google Meet</label>
+                <input type="url" class="form-control" id="meet_link" name="meet_link" value="{{ asesoria.meet_link }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

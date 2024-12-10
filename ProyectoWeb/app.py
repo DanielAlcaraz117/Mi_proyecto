@@ -73,7 +73,6 @@ def login():
         user = User.query.filter_by(email=email).first()
         
         if user is None or user.password != password:
-            flash('Credenciales incorrectas.', 'danger')
             return redirect(url_for('login'))
         
         login_user(user)
@@ -165,11 +164,18 @@ def registro_alumno():
 def dashboard_maestro():
     asesorias = Asesoria.query.filter_by(maestro_id=current_user.id).all()
     
+    # Calcular el número de registrados y el total pagado para cada asesoría
     for asesoria in asesorias:
-        # Calcular la cantidad de alumnos registrados y el total pagado
         asesoria.registrados = db.session.query(RegistroAsesoria).filter_by(asesoria_id=asesoria.id, pagado=True).count()
-        asesoria.total_pagado = db.session.query(db.func.sum(RegistroAsesoria.pagado * asesoria.costo)).filter(
-            RegistroAsesoria.asesoria_id == asesoria.id, RegistroAsesoria.pagado == True
+        asesoria.total_pagado = db.session.query(
+            db.func.sum(
+                case(
+                    (RegistroAsesoria.pagado == True, asesoria.costo),
+                    else_=0.0
+                )
+            )
+        ).filter(
+            RegistroAsesoria.asesoria_id == asesoria.id
         ).scalar() or 0.0
     
     return render_template('dashboard_maestro.html', asesorias=asesorias)
